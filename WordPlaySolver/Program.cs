@@ -3,11 +3,11 @@
 using System.Diagnostics;
 using WordPlaySolver;
 
-var scorer = new Scorer(10);
+var scorer = new Scorer(16);
 var watch = new Stopwatch();
 
 watch.Start();
-scorer.LoadWords("Collins Scrabble Words (2019).txt", 10);
+scorer.LoadWords("wordsfull.txt", 16);
 watch.Stop();
 
 Console.WriteLine($"Time to read all words and score them: {watch.ElapsedMilliseconds}ms");
@@ -20,18 +20,49 @@ Console.WriteLine($"Time to load all words into tree: {watch.ElapsedMilliseconds
 
 Console.WriteLine(tree.ExistsThatBeginsWith("PP"));
 
-var bag = "PFEIITTEMESIITZA";
+var bag = "ENAGUAHLWWOOTSIH";
 var random = new Random();
     
 var state = new State(bag.ToCharArray());
 state.DrawHand(random, 16);
 
+state.Modifiers.Add(new SlotMultiplier(3, 3));
+state.Modifiers.Add(new SlotMultiplier(3, 1));
+state.Modifiers.Add(new GenericAddBonus(8, (h, t) => true));
+//state.Modifiers.Add(new GenericAddBonus(10, (h, t) => h.Tiles.Count == 6));
+// If first and last are vowels
+state.Modifiers.Add(new GenericMultBonus(2, (h, t) => Scorer.IsVowel(h.Tiles.First().Letter) && Scorer.IsVowel(h.Tiles.Last().Letter)));
+// If first letter = last letter
+state.Modifiers.Add(new GenericMultBonus(2, (h, t) =>
+{
+    var word = h.GetWord();
+    return word.First() == word.Last();
+}));
+
+scorer.ApplyUpgrades(state.Modifiers);
+
 watch.Start();
-var best = state.FindBestWordInHand(tree, scorer);
+var best = state.FindBestWordsInHand(tree, scorer, new SearchParameters()
+{
+    BestNResults = 5, 
+    MinLength = 4,
+    MaxLength = 16,
+    Prefix = "",
+    Suffix = "",
+    Contains = "",
+    //MaxWordScore = 10
+});
 watch.Stop();
 
+var words = best.Select(t => (t.hand.GetWord(), t.value)).ToArray();
+
+foreach (var word in words)
+{
+    Console.WriteLine($"{word.Item1} for {word.value} points");
+}
+
 Console.WriteLine($"Time to find best word: {watch.ElapsedMilliseconds}ms");
-Console.WriteLine($"Best word: {best.hand.GetWord()} with value: {best.value}");
+//Console.WriteLine($"Best word: {best.hand.GetWord()} with value: {best.value}");
 
 // TODO:
 // - Add tile modifiers
@@ -44,5 +75,5 @@ Console.WriteLine($"Best word: {best.hand.GetWord()} with value: {best.value}");
 // - Implement the . (hard)
 // - Implement the ! (easier)
 // - Add upgrades
-// - Show top N results
+// [*] Show top N results
 // - Good UI

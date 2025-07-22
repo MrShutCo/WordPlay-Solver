@@ -48,8 +48,13 @@ public class Scorer
         { 'Z', 10 },
     };
 
+    public static bool IsVowel(char c)
+    {
+        return c is 'A' or 'E' or 'I' or 'O' or 'U';
+    }
+
     private List<Slot> slots { get; set; }
-    private List<int> _defaultPlus = [0, 0, 0, 0, 5, 5, 5, 10, 10, 15];
+    private List<int> _defaultPlus = [0, 0, 0, 0, 5, 5, 5, 10, 10, 15, 15, 20, 20, 20, 25, 25, 25, 30, 40, 50];
 
     public Scorer(int slotCount)
     {
@@ -70,23 +75,76 @@ public class Scorer
         }
         Console.WriteLine($"Loaded {Words.Count} words");
     }
+
+    public void ApplyUpgrades(List<Modifier> upgrades)
+    {
+        foreach (var upgrade in upgrades.Where(u => u is SlotMultiplier))
+        {
+            var mult = (SlotMultiplier)upgrade;
+            slots[mult.SlotIndex].LetterMultBonus = mult.Multiplier;
+        }
+    }
     
-    public int GetScore(Hand hand)
+    public int GetScore(Hand hand, List<Tile> bag, List<Modifier> modifiers)
     {
         var word = hand.GetWord();
-        var score = 0;
-        for (int i = 0; i < word.Length; i++)
+        var baseScore = 0;
+        var bonusScore = 0;
+        for (var i = 0; i < word.Length; i++)
         {
-            score += (Scores[word[i]] + slots[i].FlatBonus) * slots[i].LetterMultBonus;
+            baseScore += Scores[word[i]] * slots[i].LetterMultBonus;
+            bonusScore += slots[i].FlatBonus;
         }
 
-        var goldCount = hand.GetModifierCount(TileModifierType.Gold);
-        if (goldCount > 0)
+        foreach (var mod in modifiers)
         {
-            score *= goldCount;
+            if (mod is GenericAddBonus addBonus && addBonus.Conditional(hand, bag)) 
+                bonusScore += addBonus.Amount;
         }
         
-        return score;
+        var sumScore = baseScore + bonusScore;
+
+        foreach (var mod in modifiers)
+        {
+            if (mod is GenericMultBonus multBonus && multBonus.Conditional(hand, bag)) 
+                sumScore *= multBonus.Multiplier;
+        }
+
+        // foreach (PairBonusPoints modifier in modifiers.Where(u => u is PairBonusPoints))
+        // {
+        //     bonusScore += modifier.CurrentBonus;
+        //     // This should only be applied after selecting a word
+        //     // switch (modifier.PairType)
+        //     // {
+        //     //     case PairBonusPoints.EPairType.Contains:
+        //     //         if (word.Contains(modifier.Substring)) modifier.LevelUp();
+        //     //         break;
+        //     //     case PairBonusPoints.EPairType.EndsWith:
+        //     //         if (word.EndsWith(modifier.Substring)) modifier.LevelUp();
+        //     //         break;
+        //     //     case PairBonusPoints.EPairType.StartsWith:
+        //     //         if (word.StartsWith(modifier.Substring)) modifier.LevelUp();
+        //     //         break;
+        //     // }
+        // }
+        //
+        // foreach (FlatBonusModifier modifier in modifiers.Where(u => u is FlatBonusModifier))
+        // {
+        //     if (modifier is LengthFlatBonusModifier mod && word.Length != mod.Length)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     bonusScore += modifier.AddedBonus;
+        // }
+
+        // var goldCount = hand.GetModifierCount(TileModifierType.Gold);
+        // if (goldCount > 0)
+        // {
+        //     score *= goldCount;
+        // }
+        
+        return sumScore;
     }
 }
 

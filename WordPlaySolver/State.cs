@@ -2,8 +2,11 @@ namespace WordPlaySolver;
 
 public class State
 {
+    public Hand PlayableTiles { get; private set; }
+    
+    public List<Modifier> Modifiers { get; private set; }
+    
     private Tile[] _allLetters;
-    public Hand Hand { get; private set; }
     
     public State(char[] allLetters)
     {
@@ -12,37 +15,44 @@ public class State
         {
             _allLetters[i] = new Tile(allLetters[i], TileModifierType.Basic, 0);
         }
+        Modifiers = new List<Modifier>();
     }
 
     public void DrawHand(Random random, int handSize)
     {
         random.Shuffle(_allLetters);
-        Hand = new Hand(_allLetters.Take(handSize).ToList());
+        PlayableTiles = new Hand(_allLetters.Take(handSize).ToList());
         //_allLetters = _allLetters.Skip(handSize).ToArray();
-        Console.WriteLine($"Hand drawn: '{Hand.GetWord()}'");
+        Console.WriteLine($"Hand drawn: '{PlayableTiles.GetWord()}'");
     }
 
-    public (Hand hand, int value) FindBestWordInHand(Tree wordTree, Scorer scorer)
+    public IEnumerable<(Hand hand, double value)> FindBestWordsInHand(Tree wordTree, Scorer scorer, SearchParameters parameters)
     {
-        var permutations = GenerateAllPermutations(Hand.Tiles.ToArray(), 10, wordTree);
-        Hand bestHand = null;
-        var bestScore = 0;
+        var tracker = new EliteTracker<Hand>(parameters.BestNResults, true);
+        var permutations = GenerateAllPermutations(PlayableTiles.Tiles.ToArray(), parameters.MaxLength, wordTree);
+        
         foreach (var tiles in permutations)
         {
             var hand = new Hand(tiles.ToList());
-            var score = scorer.GetScore(hand);
+            
+            var score = scorer.GetScore(hand, [], Modifiers);
             var word = hand.GetWord();
-            // TODO: get the best possible letters based on modifiers
-            if (wordTree.TryGetWord(word) && score > bestScore)
+
+            if (tiles.Length < parameters.MinLength) continue;
+            if (parameters.Prefix != "" && !word.StartsWith(parameters.Prefix)) continue;
+            if (parameters.Suffix != "" && !word.EndsWith(parameters.Suffix)) continue;
+            if (parameters.Contains != "" && !word.Contains(parameters.Contains)) continue;
+            
+            if (parameters.MaxWordScore != null && score > parameters.MaxWordScore) continue;
+            
+            if (wordTree.TryGetWord(word))
             {
-                bestScore = score;
-                bestHand = hand;
+                tracker.TryUpdateElite(hand, score, false);
             }
         }
-        return (bestHand, bestScore);
-    }
-    
 
+        return tracker.GetElitesInOrder();
+    }
     
     static IEnumerable<Tile[]> GenerateAllPermutations(Tile[] chars, int maxLength, Tree tree)
     {
@@ -81,40 +91,14 @@ public class State
     }
 }
 
-public enum TileModifierType
+public class SearchParameters
 {
-    Basic,
-    Gold,
-    Emerald,
-    Red,
-    Diamond
-}
-
-public class Hand
-{
-    public List<Tile> Tiles { get; private set; }
-
-    public Hand(List<Tile> tiles)
-    {
-        Tiles = tiles;
-    }
+    public int MinLength { get; set; }
+    public int MaxLength { get; set; }
+    public int BestNResults { get; set; }
     
-    public char[] GetChars() => Tiles.Select(c => c.Letter).ToArray();
-    public string GetWord() => new(GetChars());
-    
-    public int GetModifierCount(TileModifierType modifier) => Tiles.Count(t => t.Modifier == modifier);
-}
-
-public class Tile
-{
-    public char Letter { get; private set; }
-    public TileModifierType Modifier { get; set; }
-    public int AddedValue { get; set; }
-    
-    public Tile(char letter, TileModifierType modifier, int addedValue)
-    {
-        Letter = letter;
-        Modifier = modifier;
-        AddedValue = addedValue;
-    }
+    public string Suffix { get; set; }
+    public string Prefix { get; set; }
+    public string Contains { get; set; }
+    public int? MaxWordScore { get; set; }
 }
