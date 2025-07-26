@@ -28,7 +28,7 @@ jobs:
 
       # Publish the site
       - name: Publish
-        run: dotnet publish WordPlaySolver.sln -c:Release -o:publish -p:GHPages=true
+        run: dotnet publish ./WordPlayUI/WordPlayUI.csproj -c:Release -o:publish -p:GHPages=true
 
       # Deploy the site
       - name: Deploy
