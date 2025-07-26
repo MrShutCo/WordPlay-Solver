@@ -12,17 +12,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SolverUI/Components/Pages/Home.razor.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WordPlayUI/wwwroot/wordsfull.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver.sln" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Collins Scrabble Words (2019).txt" beforeDir="false" afterPath="$PROJECT_DIR$/SolverUI/wwwroot/wordsfull.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/State.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordPlaySolver/WordPlaySolver.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/WordPlaySolver.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlayUI/WordPlayUI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/WordPlayUI.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlayUI/wwwroot/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/wwwroot/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,15 +29,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2b3cf01714fd98ff7f12316ce766442f76ff6a46a8ffb780ec8550953d47b94c/ComponentBase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/45c62c1f9af1eb2248ec17220752868b3b6728095879e849b6ea733ef7f5ff/CastHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4743f513c7ddc8411223a46f0ca426ed929391acebcff993721dff2f0c6b34/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/68b06b8592b1287fd78f3ee68566d6a38d6e2f45b9a9e6ebd4d0e9972f7c29/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a6f52f75db0c77bb83f322fb52f52cef9cff6cdafbb94dfec214bab243d18/Task.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d37356fea9ed307068a31dc8ca3e5c5723187a9f164d0d76fc81bbf46f5/ThrowHelpers.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SolverUI/Components/Layout/MainLayout.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SolverUI/Components/Layout/NavMenu.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SolverUI/Components/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SolverUI/Components/_Imports.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SolverUI/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -60,11 +50,11 @@
   "keyToString": {
     ".NET Launch Settings Profile.SolverUI: http.executor": "Run",
     ".NET Launch Settings Profile.SolverUI: https.executor": "Run",
-    ".NET Launch Settings Profile.WordPlayUI: http.executor": "Debug",
+    ".NET Launch Settings Profile.WordPlayUI: http.executor": "Run",
     ".NET Project.WordPlaySolver.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -169,7 +159,7 @@
       <workItem from="1753223016408" duration="8585000" />
       <workItem from="1753359654222" duration="3873000" />
       <workItem from="1753477857016" duration="11244000" />
-      <workItem from="1753539062365" duration="132000" />
+      <workItem from="1753539062365" duration="1943000" />
     </task>
     <servers />
   </component>
