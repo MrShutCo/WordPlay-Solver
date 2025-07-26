@@ -11,8 +11,8 @@ on:
 jobs:
   deploy:
     permissions:
-      contents: read
-      pages: read
+      contents: write
+      pages: write
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
