@@ -1,0 +1,154 @@
+﻿@inject HttpClient Http
+@using WordPlaySolver
+
+@page "/"
+
+<MudGrid>
+    @* Words *@
+    <MudItem xs="12">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudText Typo="Typo.h1">Word Play Point Scorer</MudText>
+        </MudPaper>
+    </MudItem>
+    
+    @* Modifiers *@
+    <MudItem xs="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudGrid>
+                @foreach (var mod in _modifiers)
+                {
+                    <MudItem xs="12">
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">Modifier</MudPaper>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+
+    @* Word box *@
+    <MudItem xs="6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudGrid>
+                @for (int i = 0; i < 16; i++)
+                {
+                    var i1 = i;
+                    <MudItem xs="3">
+                        <MudTextField @bind-Value="_possibleLetters[i1]"
+                                      MaxLength="1"
+                                      Immediate="true"
+                                      @ref="@_letterRefs[i1]"
+                                      @onkeydown="@((e) => OnKeyDown(e, i1))"
+                                      Class="text-center"
+                        />
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudPaper>
+        @* <MudTextField Label="Standard" Variant="Variant.Text"></MudTextField> *@
+        <MudButton OnClick="CalculateWords" Variant="Variant.Filled" Color="Color.Primary">Submit</MudButton>
+        <MudItem xs="12">
+            <MudPaper>
+                <MudList T="string">
+                    @foreach (var result in topResults)
+                    {
+                        <MudListItem Text="@result.hand.GetResult(result.value)"/>
+                    }
+                </MudList>
+            </MudPaper>
+        </MudItem>
+    </MudItem>
+
+    @* Settings *@
+    <MudItem xs="3">
+        <MudStack Style="width: 300px">
+            <MudNumericField @bind-Value="searchParameters.BestNResults" Label="Number of Results" Variant="Variant.Text" Min="1" Max="10" />
+            <MudNumericField @bind-Value="searchParameters.MinLength" Label="Min Word Length" Variant="Variant.Text" Min="1" Max="@searchParameters.MaxLength" />
+            <MudNumericField @bind-Value="searchParameters.MaxLength" Label="Max Word Length" Variant="Variant.Text" Min="@searchParameters.MinLength" Max="16" />
+            <MudNumericField @bind-Value="searchParameters.MaxWordScore" Label="Max Score" Variant="Variant.Text" Min="0" Max="65536" />
+            <MudTextField @bind-Value="searchParameters.Contains" Label="Word Contains" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="searchParameters.Prefix" Label="Word Prefix" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="searchParameters.Suffix" Label="Word Suffix" Variant="Variant.Text"></MudTextField>
+        </MudStack>
+    </MudItem>
+    
+   
+</MudGrid>
+
+@code {
+    private readonly MudTextField<string>[] _letterRefs = new MudTextField<string>[16];
+    string[] _possibleLetters = new string[16];
+
+    Scorer scorer;
+    Tree tree;
+    State state;
+    Random random;
+
+    Modifier[] _modifiers = new Modifier[6];
+
+    SearchParameters searchParameters = new()
+    {
+        BestNResults = 5,
+        MinLength = 4,
+        MaxLength = 16,
+        Prefix = "",
+        Suffix = "",
+        Contains = "",
+        MaxWordScore = null
+    };
+    
+    List<(Hand hand, double value)> topResults = [];
+
+    protected override void OnInitialized()
+    {
+        random = new Random();
+        
+        _possibleLetters = new string[16];
+        for (int i = 0; i < 16; i++)
+        {
+            _possibleLetters[i] = "";
+        }
+
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var fileContent = await Http.GetStringAsync("wordsfull.txt"); 
+            scorer = new Scorer(16);
+            scorer.LoadWords(fileContent, 16);
+            tree = new Tree(scorer.Words, scorer);
+        }
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs e, int index)
+    {
+        if (e.Key == "Backspace" && _possibleLetters[index].Length <= 1 && index > 0)
+        {
+            await _letterRefs[index - 1].FocusAsync();
+        }
+        else if (e.Key.Length == 1 && char.IsLetter(e.Key[0]))
+        {
+            var value = e.Key.ToUpperInvariant();
+
+            _possibleLetters[index] = value;
+            if (index < _letterRefs.Length - 1)
+            {
+                await _letterRefs[index + 1].FocusAsync();
+            }
+        }
+    }
+
+    void CalculateWords()
+    {
+        state = new State(_possibleLetters.Select(p => p[0]).ToArray());
+        state.DrawHand(random, 16);
+        topResults = state.FindBestWordsInHand(tree, scorer, searchParameters).ToList();
+        foreach (var result in topResults)
+        {
+            Console.WriteLine(result.hand.GetWord());
+        }
+    }
+}
+

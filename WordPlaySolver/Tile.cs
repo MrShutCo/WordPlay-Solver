@@ -20,6 +20,8 @@ public class Hand
     
     public char[] GetChars() => Tiles.Select(c => c.Letter).ToArray();
     public string GetWord() => new(GetChars());
+
+    public string GetResult(double value) => $"{GetWord()}\t{value}";
     
     public int GetModifierCount(TileModifierType modifier) => Tiles.Count(t => t.Modifier == modifier);
 

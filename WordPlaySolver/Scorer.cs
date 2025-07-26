@@ -65,10 +65,21 @@ public class Scorer
         }
     }
 
-    public void LoadWords(string path, int maxWordLength)
+    public void LoadWordsFromFile(string path, int maxWordLength)
     {
         var words =  File.ReadLines(path).ToList();
         foreach (var word in words)
+        {
+            if (word.Length > maxWordLength) continue;
+            Words.Add(word);
+        }
+        Console.WriteLine($"Loaded {Words.Count} words");
+    }
+
+    public void LoadWords(string words, int maxWordLength)
+    {
+        var list = words.Split("\n").ToList();
+        foreach (var word in list)
         {
             if (word.Length > maxWordLength) continue;
             Words.Add(word);
@@ -102,6 +113,17 @@ public class Scorer
                 bonusScore += addBonus.Amount;
         }
         
+        var goldCount = hand.GetModifierCount(TileModifierType.Gold);
+        if (goldCount > 0)
+        {
+            baseScore *= goldCount;
+        }
+
+        if (hand.Tiles.Last().Modifier == TileModifierType.Red)
+        {
+            baseScore *= 2;
+        }
+        
         var sumScore = baseScore + bonusScore;
 
         foreach (var mod in modifiers)
@@ -109,40 +131,6 @@ public class Scorer
             if (mod is GenericMultBonus multBonus && multBonus.Conditional(hand, bag)) 
                 sumScore *= multBonus.Multiplier;
         }
-
-        // foreach (PairBonusPoints modifier in modifiers.Where(u => u is PairBonusPoints))
-        // {
-        //     bonusScore += modifier.CurrentBonus;
-        //     // This should only be applied after selecting a word
-        //     // switch (modifier.PairType)
-        //     // {
-        //     //     case PairBonusPoints.EPairType.Contains:
-        //     //         if (word.Contains(modifier.Substring)) modifier.LevelUp();
-        //     //         break;
-        //     //     case PairBonusPoints.EPairType.EndsWith:
-        //     //         if (word.EndsWith(modifier.Substring)) modifier.LevelUp();
-        //     //         break;
-        //     //     case PairBonusPoints.EPairType.StartsWith:
-        //     //         if (word.StartsWith(modifier.Substring)) modifier.LevelUp();
-        //     //         break;
-        //     // }
-        // }
-        //
-        // foreach (FlatBonusModifier modifier in modifiers.Where(u => u is FlatBonusModifier))
-        // {
-        //     if (modifier is LengthFlatBonusModifier mod && word.Length != mod.Length)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     bonusScore += modifier.AddedBonus;
-        // }
-
-        // var goldCount = hand.GetModifierCount(TileModifierType.Gold);
-        // if (goldCount > 0)
-        // {
-        //     score *= goldCount;
-        // }
         
         return sumScore;
     }

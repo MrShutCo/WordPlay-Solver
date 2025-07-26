@@ -20,7 +20,7 @@ public class State
 
     public void DrawHand(Random random, int handSize)
     {
-        random.Shuffle(_allLetters);
+        //random.Shuffle(_allLetters);
         PlayableTiles = new Hand(_allLetters.Take(handSize).ToList());
         //_allLetters = _allLetters.Skip(handSize).ToArray();
         Console.WriteLine($"Hand drawn: '{PlayableTiles.GetWord()}'");
