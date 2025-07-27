@@ -31,8 +31,10 @@ jobs:
         run: dotnet publish ./WordPlayUI/WordPlayUI.csproj -c:Release -o:publish -p:GHPages=true
 
       # Deploy the site
-      - name: 📁 Upload wwwroot as artifact
-        uses: actions/upload-artifact@v4
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          name: wordplay-solver
-          path: publish/wwwroot
+          branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: publish/wwwroot
+          force_orphan: true

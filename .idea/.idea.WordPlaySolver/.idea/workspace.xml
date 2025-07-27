@@ -13,7 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +156,7 @@
       <workItem from="1753223016408" duration="8585000" />
       <workItem from="1753359654222" duration="3873000" />
       <workItem from="1753477857016" duration="11244000" />
-      <workItem from="1753539062365" duration="6137000" />
+      <workItem from="1753539062365" duration="6896000" />
     </task>
     <servers />
   </component>
