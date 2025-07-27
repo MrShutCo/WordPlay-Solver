@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "WordPlayUI",
   "resources": {
-    "hash": "sha256-DUQmthyPXnSLlS/6nuIlMG3pYlMQ8O11tjpazJx35UA=",
+    "hash": "sha256-gsNiBPXGaH8MtGFaIAHc4EchiuFr+nTWUCLm8pWxmYc=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.Forms.3himyblbt1.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
       "Microsoft.AspNetCore.Components.c8973w6fca.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -46,10 +46,10 @@
       "System.Text.Json.ieky6zkped.wasm": "System.Text.Json.wasm",
       "System.Text.RegularExpressions.88v4ewzhhh.wasm": "System.Text.RegularExpressions.wasm",
       "System.wznexm8bk2.wasm": "System.wasm",
-      "WordPlaySolver.7mitmzjgkp.wasm": "WordPlaySolver.wasm",
-      "WordPlayUI.ib9jt5exg3.wasm": "WordPlayUI.wasm",
+      "WordPlaySolver.x5rucpqv5b.wasm": "WordPlaySolver.wasm",
+      "WordPlayUI.peptgkmyff.wasm": "WordPlayUI.wasm",
       "dotnet.native.mjq7nm3nl0.js": "dotnet.native.js",
-      "dotnet.native.c1r6ftz7rf.wasm": "dotnet.native.wasm",
+      "dotnet.native.6flun1pc49.wasm": "dotnet.native.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.runtime.593bvuk5yc.js": "dotnet.runtime.js",
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
@@ -63,7 +63,7 @@
       "dotnet.runtime.593bvuk5yc.js": "sha256-x+PnWU47EIr/zL3xxqIUMDJi/dy5904TVGunDqCvjIY="
     },
     "wasmNative": {
-      "dotnet.native.c1r6ftz7rf.wasm": "sha256-YMGDLmIjQJUunPMhwiGJH7zJNOka91oBqms8SIS/jyw="
+      "dotnet.native.6flun1pc49.wasm": "sha256-Do0GU9WleGnAQh7CHHbJJ7garMM3g8fmdIQbi4ZL7JY="
     },
     "icu": {
       "icudt_CJK.tjcz0u77k5.dat": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
@@ -114,8 +114,8 @@
       "System.Text.Json.ieky6zkped.wasm": "sha256-NrJVkLHlCr62/VAAurjP9SZsfXZS45y53TxKuJ1aqhw=",
       "System.Text.RegularExpressions.88v4ewzhhh.wasm": "sha256-GDUF1IKrl79tNmB3yVE42j+dtZqxSWOaI1UCjyYUVNE=",
       "System.wznexm8bk2.wasm": "sha256-/Imz/Enqa2AZc4T3k/CqtsM6674KRN9OUtvK4Nokhew=",
-      "WordPlaySolver.7mitmzjgkp.wasm": "sha256-gYqouXf13kGFIBTyFAFsdy+9jzQsyz2tBnNYewUhUIE=",
-      "WordPlayUI.ib9jt5exg3.wasm": "sha256-7kYfggG+PcAdNTAmSKqT/mYy8n8m0OEDnPtRhlmqL74="
+      "WordPlaySolver.x5rucpqv5b.wasm": "sha256-+yrKzi0fN/HRZqKUR6Y2wJaww9Z92SoiLAYUmsbWKJk=",
+      "WordPlayUI.peptgkmyff.wasm": "sha256-HxrBiiInBHab1OSxHuI3NXLdRkbcupSQhtIKiL5I2C8="
     },
     "assembly": {}
   },
