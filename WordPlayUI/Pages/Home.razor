@@ -7,22 +7,34 @@
     @* Words *@
     <MudItem xs="12">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudText Typo="Typo.h1">Word Play Point Scorer</MudText>
+            <MudText Typo="Typo.h3">Word Play Point Scorer</MudText>
         </MudPaper>
     </MudItem>
     
     @* Modifiers *@
-    
     <MudItem xs="3">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudGrid>
-                @foreach (var mod in _modifiers)
+            <MudStack>
+                @for (int i = 0; i < _mods.Length; i++)
                 {
-                    <MudItem xs="12">
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">Modifier</MudPaper>
-                    </MudItem>
+                    int ii = i;
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                            <MudNumericField Style="width: 50px;" Label="Bonus" Variant="Variant.Text" Min="0.0" Max="1000.0"/>
+                            <MudSelect Style="width: 40px;"  @bind-Value="_mods[ii].ModType">
+                                @foreach (var modtype in Enum.GetValues(typeof(ModType)).Cast<ModType>())
+                                {
+                                    <MudSelectItem Value="modtype">@modtype</MudSelectItem>
+                                }
+                            </MudSelect>
+                            <MudSelect @bind-Value="_mods[ii].Name">
+                                @foreach (var option in ModifierConditions)
+                                {
+                                    <MudSelectItem Value="option.Key">@option.Key</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudPaper>
                 }
-            </MudGrid>
+            </MudStack>
         </MudPaper>
     </MudItem>
 
@@ -34,13 +46,14 @@
                 {
                     var i1 = i;
                     <MudItem xs="3">
-                        <MudTextField @bind-Value="_possibleLetters[i1]"
+                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                            <MudTextField @bind-Value="_possibleLetters[i1]"
                                       MaxLength="1"
                                       Immediate="true"
                                       @ref="@_letterRefs[i1]"
                                       @onkeydown="@((e) => OnKeyDown(e, i1))"
-                                      Class="text-center"
-                        />
+                                      Style="width: 40px;text-align: center;"/>
+                        </MudPaper>
                     </MudItem>
                 }
             </MudGrid>
@@ -77,14 +90,14 @@
 
 @code {
     private readonly MudTextField<string>[] _letterRefs = new MudTextField<string>[16];
+    private readonly ModifierDef[] _mods = new ModifierDef[6];
+    
     string[] _possibleLetters = new string[16];
 
     Scorer scorer;
     Tree tree;
     State state;
     Random random;
-
-    Modifier[] _modifiers = new Modifier[6];
 
     SearchParameters searchParameters = new()
     {
@@ -110,6 +123,11 @@
             _possibleLetters[i] = "";
         }
 
+        for (int i = 0; i < 6; i++)
+        {
+            _mods[i] = new ModifierDef();
+        }
+
         base.OnInitialized();
     }
 
@@ -123,20 +141,25 @@
             tree = new Tree(scorer.Words, scorer);
         }
     }
-
+    
     private async Task OnKeyDown(KeyboardEventArgs e, int index)
     {
-        if (e.Key == "Backspace" && _possibleLetters[index].Length <= 1 && index > 0)
+        if (e.Key == "Backspace")
         {
-            await _letterRefs[index - 1].FocusAsync();
+            _possibleLetters[index] = ""; // clear current
+            if (index > 0)
+            {
+                await _letterRefs[index - 1].FocusAsync();
+            }
         }
         else if (e.Key.Length == 1 && char.IsLetter(e.Key[0]))
         {
-            var value = e.Key.ToUpperInvariant();
+            _possibleLetters[index] = e.Key.ToUpperInvariant();
 
-            _possibleLetters[index] = value;
+            // Defer the focus to next textbox slightly, so Blazor finishes rendering first
             if (index < _letterRefs.Length - 1)
             {
+                await Task.Yield(); // let Blazor process current update
                 await _letterRefs[index + 1].FocusAsync();
             }
         }
@@ -144,13 +167,46 @@
 
     void CalculateWords()
     {
-        state = new State(_possibleLetters.Select(p => p[0]).ToArray());
+        state = new State(_possibleLetters.Where(l => !string.IsNullOrEmpty(l)).Select(p => p[0]).ToArray());
         state.DrawHand(random, 16);
         topResults = state.FindBestWordsInHand(tree, scorer, searchParameters).ToList();
         foreach (var result in topResults)
         {
             Console.WriteLine(result.hand.GetWord());
         }
+    }
+
+    Dictionary<string, Func<Hand, List<Tile>, bool>> ModifierConditions = new()
+    {
+        { "Always true", (h, t) => true },
+        { "First letter = last", (h, t) =>
+        {
+            var word = h.GetWord();
+            return word.First() == word.Last();
+        }},
+        { "First last vowels", (h, t) =>
+        {
+            var word = h.GetWord();
+            return Scorer.IsVowel(word.First()) && Scorer.IsVowel(word.Last());
+        }}
+    };
+
+    List<Modifier> modifiers = new List<Modifier>()
+    {
+    };
+
+    public enum ModType
+    {
+        Add,
+        Mult
+    }
+
+    class ModifierDef
+    {
+        public string Name { get; set; }
+        public double Bonus { get; set; }
+        public ModType ModType { get; set; }
+        
     }
 }
 

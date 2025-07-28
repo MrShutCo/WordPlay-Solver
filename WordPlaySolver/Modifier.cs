@@ -17,7 +17,6 @@ namespace WordPlaySolver;
 public class Modifier
 {
     public string Name;
-    
 }
 
 public class SlotMultiplier(int multiplier, int slotIndex) : Modifier

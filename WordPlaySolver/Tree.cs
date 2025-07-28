@@ -80,7 +80,6 @@ public class Tree
         var curr = _initialLetters[CharToIndex(word[0])];
         for (int i = 1; i < word.Length; i++)
         {
-            curr.Count++;
             var nextIdx = CharToIndex(word[i]);
             curr.NextLetters[nextIdx] ??= new Node(word[i]);
             curr = curr.NextLetters[nextIdx];
