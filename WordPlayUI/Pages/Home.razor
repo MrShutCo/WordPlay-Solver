@@ -7,32 +7,51 @@
     @* Words *@
     <MudItem xs="12">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudText Typo="Typo.h3">Word Play Point Scorer</MudText>
+            <MudText Typo="Typo.h5">Word Play Point Scorer</MudText>
+            <MudChip T="string"
+                     Href="https://github.com/MrShutCo"
+                     Target="_blank"
+                     Variant="Variant.Filled"
+                     Icon="@Icons.Custom.Brands.GitHub"
+                     >
+                GitHub
+            </MudChip>
         </MudPaper>
     </MudItem>
     
     @* Modifiers *@
     <MudItem xs="3">
-        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudStack>
+        <MudPaper>
+            <MudText Align="Align.Center" Typo="Typo.h6">Modifiers</MudText>
+            <MudStack Spacing="1" Justify="Justify.Center" AlignItems="AlignItems.Center">
                 @for (int i = 0; i < _mods.Length; i++)
                 {
                     int ii = i;
-                        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-                            <MudNumericField Style="width: 50px;" Label="Bonus" Variant="Variant.Text" Min="0.0" Max="1000.0"/>
-                            <MudSelect Style="width: 40px;"  @bind-Value="_mods[ii].ModType">
+                    var modifierDisabled = _mods[ii].Name != "Generic Always True";
+                    var additionalDisabled = true;
+                    if (!string.IsNullOrEmpty(_mods[ii].Name)) additionalDisabled = GetModifierByName(_mods[ii].Name) is not GenericBonusAdditional;
+
+                    <MudPaper Class="p-4" Elevation="1">
+                        <MudSelect ValueChanged="(string value) => OnSelectModifier(value, ii)">
+                            @foreach (var option in _standardModifiers)
+                            {
+                                <MudSelectItem Value="option.Name">@option.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                            <MudSelect Disabled="modifierDisabled" Style="margin-bottom: 0;" @bind-Value="_mods[ii].ModType">
                                 @foreach (var modtype in Enum.GetValues(typeof(ModType)).Cast<ModType>())
                                 {
                                     <MudSelectItem Value="modtype">@modtype</MudSelectItem>
                                 }
                             </MudSelect>
-                            <MudSelect @bind-Value="_mods[ii].Name">
-                                @foreach (var option in ModifierConditions)
-                                {
-                                    <MudSelectItem Value="option.Key">@option.Key</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudPaper>
+                            <MudNumericField Disabled="modifierDisabled" Style="max-width: 120px;" @bind-Value="_mods[ii].Bonus" Label="Bonus" Variant="Variant.Text" Min="0.0" Max="1000.0"/>
+
+                            <MudTextField Disabled="additionalDisabled" Style="max-width: 120px;" @bind-Value="_mods[ii].Additional" Label="Additional" Variant="Variant.Text"/>
+                        </MudStack>
+
+
+                    </MudPaper>
                 }
             </MudStack>
         </MudPaper>
@@ -41,25 +60,38 @@
     @* Word box *@
     <MudItem xs="6">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudForm @ref="_validationForm">
             <MudGrid>
-                @for (int i = 0; i < 16; i++)
+                @for (int i = 0; i < InitialWordCount; i++)
                 {
                     var i1 = i;
                     <MudItem xs="3">
                         <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
                             <MudTextField @bind-Value="_possibleLetters[i1]"
-                                      MaxLength="1"
-                                      Immediate="true"
-                                      @ref="@_letterRefs[i1]"
-                                      @onkeydown="@((e) => OnKeyDown(e, i1))"
-                                      Style="width: 40px;text-align: center;"/>
+                                          MaxLength="1"
+                                          Immediate="true"
+                                          @ref="@_letterRefs[i1]"
+                                          Validation="@(new Func<string, string>(OnValidate))"
+                                          @onkeydown="@((e) => OnKeyDown(e, i1))"
+                                          Style="width: 40px;text-align: center;"/>
                         </MudPaper>
                     </MudItem>
                 }
             </MudGrid>
+            </MudForm>
         </MudPaper>
+        <MudItem Class="d-flex align-center justify-center mud-width-full py-8" xs="12">
+            <MudChip T="string" Label="true">* = * (coming soon)</MudChip>
+            <MudChip T="string" Label="true">, = ING</MudChip>
+            <MudChip T="string" Label="true">. = ERS</MudChip>
+            <MudChip T="string" Label="true">/ = Qu</MudChip>
+        </MudItem>
+
+        <MudDivider />
         @* <MudTextField Label="Standard" Variant="Variant.Text"></MudTextField> *@
         <MudButton OnClick="CalculateWords" Variant="Variant.Filled" Color="Color.Primary">Submit</MudButton>
+        
+        
         <MudItem xs="12">
             <MudPaper>
                 <MudList T="string">
@@ -74,11 +106,12 @@
 
     @* Settings *@
     <MudItem xs="3">
+        <MudText Align="Align.Center" Typo="Typo.h6">Settings</MudText>
         <MudStack Style="width: 300px">
-            <MudNumericField @bind-Value="searchParameters.BestNResults" Label="Number of Results" Variant="Variant.Text" Min="1" Max="10" />
-            <MudNumericField @bind-Value="searchParameters.MinLength" Label="Min Word Length" Variant="Variant.Text" Min="1" Max="@searchParameters.MaxLength" />
-            <MudNumericField @bind-Value="searchParameters.MaxLength" Label="Max Word Length" Variant="Variant.Text" Min="@searchParameters.MinLength" Max="16" />
-            <MudNumericField @bind-Value="searchParameters.MaxWordScore" Label="Max Score" Variant="Variant.Text" Min="0" Max="65536" />
+            <MudNumericField @bind-Value="searchParameters.BestNResults" Label="Number of Results" Variant="Variant.Text" Min="1" Max="10"/>
+            <MudNumericField @bind-Value="searchParameters.MinLength" Label="Min Word Length" Variant="Variant.Text" Min="1" Max="@searchParameters.MaxLength"/>
+            <MudNumericField @bind-Value="searchParameters.MaxLength" Label="Max Word Length" Variant="Variant.Text" Min="@searchParameters.MinLength" Max="InitialWordCount"/>
+            <MudNumericField @bind-Value="searchParameters.MaxWordScore" Label="Max Score" Variant="Variant.Text" Min="0" Max="65536"/>
             <MudTextField @bind-Value="searchParameters.Contains" Label="Word Contains" Variant="Variant.Text"></MudTextField>
             <MudTextField @bind-Value="searchParameters.Prefix" Label="Word Prefix" Variant="Variant.Text"></MudTextField>
             <MudTextField @bind-Value="searchParameters.Suffix" Label="Word Suffix" Variant="Variant.Text"></MudTextField>
@@ -89,21 +122,26 @@
 </MudGrid>
 
 @code {
-    private readonly MudTextField<string>[] _letterRefs = new MudTextField<string>[16];
-    private readonly ModifierDef[] _mods = new ModifierDef[6];
-    
-    string[] _possibleLetters = new string[16];
 
-    Scorer scorer;
-    Tree tree;
-    State state;
-    Random random;
+    const int InitialWordCount = 16;
+    const int ModifierCount = 6;
+    
+    private readonly MudTextField<string>[] _letterRefs = new MudTextField<string>[InitialWordCount];
+    private readonly ModifierDef[] _mods = new ModifierDef[ModifierCount];
+
+    MudForm _validationForm;
+    
+    string[] _possibleLetters = new string[InitialWordCount];
+
+    Scorer _scorer = null!;
+    Tree _tree = null!;
+    State _state = null!;
 
     SearchParameters searchParameters = new()
     {
         BestNResults = 5,
         MinLength = 4,
-        MaxLength = 16,
+        MaxLength = InitialWordCount,
         Prefix = "",
         Suffix = "",
         Contains = "",
@@ -115,15 +153,13 @@
 
     protected override void OnInitialized()
     {
-        random = new Random();
-        
-        _possibleLetters = new string[16];
-        for (int i = 0; i < 16; i++)
+        _possibleLetters = new string[InitialWordCount];
+        for (int i = 0; i < InitialWordCount; i++)
         {
             _possibleLetters[i] = "";
         }
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < ModifierCount; i++)
         {
             _mods[i] = new ModifierDef();
         }
@@ -136,10 +172,22 @@
         if (firstRender)
         {
             var fileContent = await Http.GetStringAsync("wordsfull.txt"); 
-            scorer = new Scorer(16);
-            scorer.LoadWords(fileContent, 16);
-            tree = new Tree(scorer.Words, scorer);
+            _scorer = new Scorer(InitialWordCount);
+            _scorer.LoadWords(fileContent, InitialWordCount);
+            _tree = new Tree(_scorer.Words, _scorer);
         }
+    }
+
+    private string OnValidate(string input)
+    {
+        foreach (var ch in input)
+        {
+            if (char.IsLetter(ch)) continue;
+            if (ch is '2' or '3' or '4') continue;
+            return "Invalid Character";
+        }
+
+        return null;
     }
     
     private async Task OnKeyDown(KeyboardEventArgs e, int index)
@@ -152,9 +200,18 @@
                 await _letterRefs[index - 1].FocusAsync();
             }
         }
-        else if (e.Key.Length == 1 && char.IsLetter(e.Key[0]))
+        else if (e.Key.Length == 1 && (char.IsLetter(e.Key[0])) || (e.Key[0] is ',' or '.' or '/'))
         {
-            _possibleLetters[index] = e.Key.ToUpperInvariant();
+            var tileLetters = e.Key switch
+            {
+                "*" => "*",
+                "," => "ING",
+                "." => "ERS",
+                "/" => "QU",
+                _ => e.Key.ToUpperInvariant()
+            };
+
+            _possibleLetters[index] = tileLetters;
 
             // Defer the focus to next textbox slightly, so Blazor finishes rendering first
             if (index < _letterRefs.Length - 1)
@@ -163,50 +220,111 @@
                 await _letterRefs[index + 1].FocusAsync();
             }
         }
+        else
+        {
+            _possibleLetters[index] = "";
+        }
     }
 
     void CalculateWords()
     {
-        state = new State(_possibleLetters.Where(l => !string.IsNullOrEmpty(l)).Select(p => p[0]).ToArray());
-        state.DrawHand(random, 16);
-        topResults = state.FindBestWordsInHand(tree, scorer, searchParameters).ToList();
+        if (!_validationForm.IsValid)
+        {
+            return;
+        }
+        _state = new State(_possibleLetters.Where(l => !string.IsNullOrEmpty(l)).ToArray());
+        _state.DrawHand(InitialWordCount);
+        foreach (var mod in _mods)
+        {
+            if (string.IsNullOrEmpty(mod.Name)) continue;
+            var m = GetModifierByName(mod.Name);
+
+            // Pass in context-sensitive information to modifier
+            if (m is GenericBonusAdditional bonus)
+            {
+                bonus.Additional = mod.Additional;
+            }
+            if (mod.Name == "Generic Always True")
+            {
+                m = new GenericBonus("Generic Always True", (int)mod.Bonus, mod.ModType, (_, _) => true);
+            }
+            _state.Modifiers.Add(m);
+        }
+        _scorer.ResetSlots(InitialWordCount);
+        topResults = _state.FindBestWordsInHand(_tree, _scorer, searchParameters).ToList();
+        
         foreach (var result in topResults)
         {
             Console.WriteLine(result.hand.GetWord());
         }
     }
-
-    Dictionary<string, Func<Hand, List<Tile>, bool>> ModifierConditions = new()
+    
+    private void OnSelectModifier(string value, int index)
     {
-        { "Always true", (h, t) => true },
-        { "First letter = last", (h, t) =>
-        {
-            var word = h.GetWord();
-            return word.First() == word.Last();
-        }},
-        { "First last vowels", (h, t) =>
-        {
-            var word = h.GetWord();
-            return Scorer.IsVowel(word.First()) && Scorer.IsVowel(word.Last());
-        }}
-    };
-
-    List<Modifier> modifiers = new List<Modifier>()
-    {
-    };
-
-    public enum ModType
-    {
-        Add,
-        Mult
+        var mod = GetModifierByName(value);
+        _mods[index].Name = value;
+        _mods[index].Bonus = mod.Amount;
+        _mods[index].Additional = "";
+        _mods[index].ModType = mod.TimingType is ModTimingType.Bonus ? ModType.Add : ModType.Mult;
     }
+
+    Modifier GetModifierByName(string name) => _standardModifiers.First(s => s.Name == name);
+    
+    List<Modifier> _standardModifiers =
+    [
+        new Modifier("None", ModTimingType.None, 0),
+        new Modifier("Generic Always True", ModTimingType.None, 0),
+        new SlotMultiplier("2nd tile is 3x", 3, 1),
+        new SlotMultiplier("4th tile is 3x", 3, 3),
+        new SlotMultiplier("If first tile is vowel, 5x its value", 5, 0, ModifierConditionals.FirstTileIsVowel),
+        new GenericBonusAdditional("If word begins with _, +20 BP", 20, ModType.Add, ModifierConditionals.WordBeginsWith, ""),
+        new GenericBonus("First letter = last", 2, ModType.Mult, (hand, _) =>
+        {
+            var word = hand.GetWord();
+            return word.First() == word.Last();
+        }),
+        new GenericBonus("First and last letters are vowels", 2, ModType.Mult, (hand, _) =>
+        {
+            var word = hand.GetWord();
+            return Scorer.IsVowel(word.First()) && Scorer.IsVowel(word.Last());
+        }),
+        new GenericBonus("Identical letters in row is 1.5x", 1.5, ModType.Mult, ModifierConditionals.IdenticalLetters),
+        new Modifier("(N/A) 10 bonus points during special rounds", ModTimingType.None, 0),
+        new Modifier("(N/A) Add 5 Bonus Points for each unused Upgrade", ModTimingType.None, 0),
+    ];
+
+    // Dictionary<string, Func<Hand, List<Tile>, bool>> ModifierConditions = new()
+    // {
+    //     {"None", (h, t) => false},
+    //     { "Always true", (h, t) => true },
+    //     { "4th tile is 3x", (h, t) => true },
+    //     { "Contains Letter Pair", (h, t) =>
+    //     {
+    //         var word = h.GetWord();
+    //         
+    //     }},
+    //     { "First letter = last", (h, t) =>
+    //     {
+    //         var word = h.GetWord();
+    //         return word.First() == word.Last();
+    //     }},
+    //     { "First last vowels", (h, t) =>
+    //     {
+    //         var word = h.GetWord();
+    //         return Scorer.IsVowel(word.First()) && Scorer.IsVowel(word.Last());
+    //     }}
+    // };
+    
+
 
     class ModifierDef
     {
         public string Name { get; set; }
         public double Bonus { get; set; }
+        public string Additional { get; set; }
         public ModType ModType { get; set; }
         
     }
+
 }
 

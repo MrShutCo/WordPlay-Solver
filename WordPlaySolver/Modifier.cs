@@ -1,100 +1,84 @@
 namespace WordPlaySolver;
 
-/// <summary>
-/// Upgrades:
-///
-/// Slot modifiers: x-th tile scores some mult
-/// Swap vowel
-/// Add additional tile
-/// Length x gives some points
-/// +X based on something (number of upgrades used)
-/// First tile 5x if vowel
-/// Challenges:
-///     +4 bonus points if word contains letter pair, -40 otherwise, caps at 40
-///     +2 bonus points if word contains letter pair
-/// 
-/// </summary>
 public class Modifier
 {
     public string Name;
-}
-
-public class SlotMultiplier(int multiplier, int slotIndex) : Modifier
-{
-    public int Multiplier = multiplier;
-    public int SlotIndex = slotIndex;
-}
-
-public class FlatBonusModifier : Modifier
-{
-    public int AddedBonus { get; set; }
-
-    public FlatBonusModifier(int bonus)
+    public ModTimingType TimingType;
+    public double Amount;
+    
+    public Modifier(string name, ModTimingType timingType, double amount)
     {
-        AddedBonus = bonus;
+        Name = name;
+        TimingType = timingType;
+        Amount = amount;
+    }
+    
+    public virtual bool IsActive(Hand hand, List<Tile> bag) => true;
+}
+
+public class SlotMultiplier(string name, int multiplier, int slotIndex, Func<Hand, List<Tile>, bool>? conditional = null) 
+    : Modifier(name, ModTimingType.TileMult, amount: multiplier)
+{
+    public readonly int SlotIndex = slotIndex;
+    public readonly Func<Hand, List<Tile>, bool> Conditional = conditional;
+
+    public override bool IsActive(Hand hand, List<Tile> bag)
+    {
+        return Conditional?.Invoke(hand, bag) ?? true;
     }
 }
 
-public class GenericAddBonus : Modifier
+public class GenericBonus : Modifier
 {
-    public int Amount { get; set; }
-    public Func<Hand, List<Tile>, bool> Conditional { get; set; }
+    public ModType ModType { get; set; }
     
-    public GenericAddBonus(int amount, Func<Hand, List<Tile>, bool> conditional)
+    private Func<Hand, List<Tile>, bool> Conditional { get; set; }
+    
+    public GenericBonus(string name, double amount, ModType modType, Func<Hand, List<Tile>, bool> conditional) 
+        : base(name, modType == ModType.Add ? ModTimingType.Bonus : ModTimingType.Multiplier, amount)
     {
+        ModType = modType;
         Amount = amount;
         Conditional = conditional;
     }
+
+    public override bool IsActive(Hand hand, List<Tile> bag)
+    {
+        return Conditional.Invoke(hand, bag);
+    }
 }
 
-public class GenericMultBonus : Modifier
+public class GenericBonusAdditional : Modifier
 {
-    public int Multiplier { get; set; }
-    public Func<Hand, List<Tile>, bool> Conditional { get; set; }
+    public string Additional;
+    public ModType ModType { get; set; }
+    private Func<Hand, List<Tile>, string, bool> Conditional { get; set; }
     
-    public GenericMultBonus(int multiplier, Func<Hand, List<Tile>, bool> conditional)
+    public GenericBonusAdditional(string name, int amount, ModType modType, Func<Hand, List<Tile>, string, bool> conditional, string additional) 
+        : base(name, modType == ModType.Add ? ModTimingType.Bonus : ModTimingType.Multiplier, amount)
     {
-        Multiplier = multiplier;
+        Additional = additional;
+        Amount = amount;
+        ModType = modType;
         Conditional = conditional;
     }
-}
 
-public class LengthFlatBonusModifier : FlatBonusModifier
-{
-    public int Length { get; set; }
-    public LengthFlatBonusModifier(int bonus, int length) : base(bonus)
+    public override bool IsActive(Hand hand, List<Tile> bag)
     {
-        Length = length;
+        return Conditional.Invoke(hand, bag, Additional);
     }
 }
 
-public class PairBonusPoints : Modifier
+public enum ModType
 {
-    public int CurrentBonus;
-    public int AddedBonus;
-    public int MaxBonus;
-    public EPairType PairType;
-    public string Substring;
-    
-    public PairBonusPoints(int currentBonus, int addedBonus, int maxBonus, EPairType pairType, string substring)
-    {
-        CurrentBonus = currentBonus;
-        AddedBonus = addedBonus;
-        MaxBonus = maxBonus;
-        PairType = pairType;
-        Substring = substring;
-    }
+    Add,
+    Mult
+}
 
-    public void LevelUp()
-    {
-        CurrentBonus += AddedBonus;
-        CurrentBonus = Math.Min(CurrentBonus, MaxBonus);
-    }
-
-    public enum EPairType
-    {
-        Contains,
-        StartsWith,
-        EndsWith,
-    }
+public enum ModTimingType
+{
+    None,
+    TileMult,
+    Bonus,
+    Multiplier
 }

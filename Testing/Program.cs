@@ -1,8 +1,4 @@
-﻿//See https://aka.ms/new-console-template for more information
-
-// See https://aka.ms/new-console-template for more information
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using WordPlaySolver;
 
 var scorer = new Scorer(16);
@@ -18,75 +14,31 @@ watch.Start();
 var tree = new Tree(scorer.Words.ToList(), scorer);
 watch.Stop();
 
-Random random = new Random();
 
 Console.WriteLine($"Time to load all words into tree: {watch.ElapsedMilliseconds}ms");
-// while (true)
-// {
-    //var s = Console.ReadLine();
-    //if (s.Length == 0) break;
-    
-    var bag = "TIXGERVOPNEOEUEI";
-    var state = new State(bag.ToCharArray());
-    state.DrawHand(random, 16);
-    
-    var best = state.FindBestWordsInHand(tree, scorer, new SearchParameters()
-    {
-        BestNResults = 5, 
-        MinLength = 4,
-        MaxLength = 16,
-        Prefix = "",
-        Suffix = "",
-        Contains = "",
-        //MaxWordScore = 10
-    });
-    
-    var words = best.Select(t => (t.hand.GetWord(), t.value)).ToArray();
 
-    foreach (var word in words)
-    {
-        Console.WriteLine($"{word.Item1} for {word.value} points");
-    }
-//}
+string[] bag = ["Q","U","O","T","ING","ERS","QU","I","W","M","C","N","I","O","S","S"];
+var state = new State(bag);
+state.DrawHand(16);
+    
+watch.Start();
+var best = state.FindBestWordsInHand(tree, scorer, new SearchParameters()
+{
+    BestNResults = 5, 
+    MinLength = 4,
+    MaxLength = 16,
+    Prefix = "",
+    Suffix = "",
+    Contains = "",
+});
+watch.Stop();
+var words = best.Select(t => (t.hand.GetWord(), t.value)).ToArray();
 
-// state.PlayableTiles.Tiles[6].Modifier = TileModifierType.Red;
-// state.PlayableTiles.Tiles[8].Modifier = TileModifierType.Red;
-// state.PlayableTiles.Tiles[11].Modifier = TileModifierType.Red;
-
-// Slot multipliers
-// state.Modifiers.Add(new SlotMultiplier(3, 3));
-// state.Modifiers.Add(new SlotMultiplier(3, 1));
-// state.Modifiers.Add(new GenericAddBonus(8, (h, t) => true));
-// //state.Modifiers.Add(new GenericAddBonus(10, (h, t) => h.Tiles.Count == 6));
-// // If first and last are vowels
-// state.Modifiers.Add(new GenericMultBonus(2, (h, t) => Scorer.IsVowel(h.Tiles.First().Letter) && Scorer.IsVowel(h.Tiles.Last().Letter)));
-// // If first letter = last letter
-// state.Modifiers.Add(new GenericMultBonus(2, (h, t) =>
-// {
-//     var word = h.GetWord();
-//     return word.First() == word.Last();
-// }));
-// state.Modifiers.Add(new GenericMultBonus(2, (hand, _) => !hand.GetWord().Contains("E")));
-//
-// scorer.ApplyUpgrades(state.Modifiers);
-//
-// watch.Start();
-// var best = state.FindBestWordsInHand(tree, scorer, new SearchParameters()
-// {
-//     BestNResults = 5, 
-//     MinLength = 4,
-//     MaxLength = 16,
-//     Prefix = "",
-//     Suffix = "",
-//     Contains = "",
-//     //MaxWordScore = 10
-// });
-// watch.Stop();
-//
-//
-//
-// Console.WriteLine($"Time to find best word: {watch.ElapsedMilliseconds}ms");
-//Console.WriteLine($"Best word: {best.hand.GetWord()} with value: {best.value}");
+foreach (var word in words) 
+{ 
+    Console.WriteLine($"{word.Item1} for {word.value} points");
+}
+Console.WriteLine($"Time to find all words in {watch.ElapsedMilliseconds}ms");
 
 // TODO:
 // - Add tile modifiers
