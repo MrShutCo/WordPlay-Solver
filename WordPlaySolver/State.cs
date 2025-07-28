@@ -2,13 +2,23 @@ namespace WordPlaySolver;
 
 public class State
 {
-    public Hand PlayableTiles { get; private set; }
+    private Hand PlayableTiles { get; set; }
     
     public List<Modifier> Modifiers { get; private set; }
     
-    private Tile[] _allLetters;
+    private readonly Tile[] _allLetters;
     
     public State(char[] allLetters)
+    {
+        _allLetters = new Tile[allLetters.Length];
+        for (int i = 0; i < allLetters.Length; i++)
+        {
+            _allLetters[i] = new Tile(allLetters[i].ToString(), TileModifierType.Basic, 0);
+        }
+        Modifiers = new List<Modifier>();
+    }
+
+    public State(string[] allLetters)
     {
         _allLetters = new Tile[allLetters.Length];
         for (int i = 0; i < allLetters.Length; i++)
@@ -18,11 +28,9 @@ public class State
         Modifiers = new List<Modifier>();
     }
 
-    public void DrawHand(Random random, int handSize)
+    public void DrawHand(int handSize)
     {
-        //random.Shuffle(_allLetters);
         PlayableTiles = new Hand(_allLetters.Take(handSize).ToList());
-        //_allLetters = _allLetters.Skip(handSize).ToArray();
         Console.WriteLine($"Hand drawn: '{PlayableTiles.GetWord()}'");
     }
 

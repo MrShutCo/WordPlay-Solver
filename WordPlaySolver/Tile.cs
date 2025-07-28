@@ -18,7 +18,7 @@ public class Hand
         Tiles = tiles;
     }
     
-    public char[] GetChars() => Tiles.Select(c => c.Letter).ToArray();
+    public char[] GetChars() => string.Concat(Tiles.Select(t => t.Letters)).ToCharArray();
     public string GetWord() => new(GetChars());
 
     public string GetResult(double value) => $"{GetWord()}\t{value}";
@@ -29,17 +29,22 @@ public class Hand
     {
         return GetWord();
     }
+
+    public static char[] GetCharsFromTiles(Tile[] tiles)
+    {
+        return string.Concat(tiles.Select(t => t.Letters)).ToCharArray();
+    }
 }
 
 public class Tile
 {
-    public char Letter { get; private set; }
+    public string Letters { get; private set; }
     public TileModifierType Modifier { get; set; }
     public int AddedValue { get; set; }
     
-    public Tile(char letter, TileModifierType modifier, int addedValue)
+    public Tile(string letters, TileModifierType modifier, int addedValue)
     {
-        Letter = letter;
+        Letters = letters;
         Modifier = modifier;
         AddedValue = addedValue;
     }

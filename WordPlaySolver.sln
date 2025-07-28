@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPlaySolver", "WordPlayS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPlayUI", "WordPlayUI\WordPlayUI.csproj", "{AF0E582F-7F0E-4E34-8549-8F9AFED2E2FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{C1E6A218-7CA3-4138-BA7E-A1C124E0DEFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{AF0E582F-7F0E-4E34-8549-8F9AFED2E2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF0E582F-7F0E-4E34-8549-8F9AFED2E2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF0E582F-7F0E-4E34-8549-8F9AFED2E2FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E6A218-7CA3-4138-BA7E-A1C124E0DEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E6A218-7CA3-4138-BA7E-A1C124E0DEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E6A218-7CA3-4138-BA7E-A1C124E0DEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E6A218-7CA3-4138-BA7E-A1C124E0DEFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -39,13 +39,14 @@ public class Tree
     public bool ExistsThatBeginsWith(Tile[] tiles)
     {
         if (tiles.Length == 0) return true;
-        var initialIndex = CharToIndex(tiles[0].Letter);
+        var letters = Hand.GetCharsFromTiles(tiles);
+        var initialIndex = CharToIndex(letters[0]);
         if (initialIndex < 0 || initialIndex >= _initialLetters.Length) throw new IndexOutOfRangeException();
         
         var curr = _initialLetters[initialIndex];
-        for (int i = 1; i < tiles.Length; i++)
+        for (int i = 1; i < letters.Length; i++)
         {
-            var next = curr.NextLetters[CharToIndex(tiles[i].Letter)];
+            var next = curr.NextLetters[CharToIndex(letters[i])];
             if (next == null) return false;
             curr = next;
         }
@@ -80,7 +81,6 @@ public class Tree
         var curr = _initialLetters[CharToIndex(word[0])];
         for (int i = 1; i < word.Length; i++)
         {
-            curr.Count++;
             var nextIdx = CharToIndex(word[i]);
             curr.NextLetters[nextIdx] ??= new Node(word[i]);
             curr = curr.NextLetters[nextIdx];
