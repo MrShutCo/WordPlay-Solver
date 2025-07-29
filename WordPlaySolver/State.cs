@@ -50,7 +50,7 @@ public class State
             if (parameters.Suffix != "" && !word.EndsWith(parameters.Suffix)) continue;
             if (parameters.Contains != "" && !word.Contains(parameters.Contains)) continue;
             
-             var score = scorer.GetScore(hand, [], Modifiers);
+            var score = scorer.GetScore(hand, [], Modifiers);
             
             if (parameters.MaxWordScore != null && score > parameters.MaxWordScore) continue;
             

@@ -174,7 +174,6 @@
             var fileContent = await Http.GetStringAsync("wordsfull.txt"); 
             _scorer = new Scorer(InitialWordCount);
             _scorer.LoadWords(fileContent, InitialWordCount);
-            _tree = new Tree(_scorer.Words, _scorer);
         }
     }
 
