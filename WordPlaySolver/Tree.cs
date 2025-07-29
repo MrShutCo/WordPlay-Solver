@@ -71,7 +71,7 @@ public class Tree
         return curr.IsTerminator;
     }
 
-    int CharToIndex(char ch)
+    public static int CharToIndex(char ch)
     {
         return ch - 'A';
     }

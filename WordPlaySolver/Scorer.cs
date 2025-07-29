@@ -103,7 +103,7 @@ public class Scorer
 
     public void ApplySlotUpgrades(Hand hand, List<Tile> bag, List<Modifier> modifiers)
     {
-        slots.ForEach(s => s.LetterMultBonus = 0);
+        slots.ForEach(s => s.LetterMultBonus = 1);
         foreach (var modifier in modifiers.Where(u => u is SlotMultiplier))
         {
             var mult = (SlotMultiplier)modifier;

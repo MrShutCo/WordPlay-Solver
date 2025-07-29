@@ -12,17 +12,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/WordPlaySolver/ModifierConditionals.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Testing/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Modifier.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Modifier.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/State.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tree.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" afterDir="false" />
-    </list>
+    <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +22,11 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="TrieRefactor" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -43,6 +38,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a6f52f75db0c77bb83f322fb52f52cef9cff6cdafbb94dfec214bab243d18/Task.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c91b9b584df85d0d79429970f616605a7eefd01b954c8a3bbaca5e9067bc7/MudTextField.razor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d37356fea9ed307068a31dc8ca3e5c5723187a9f164d0d76fc81bbf46f5/ThrowHelpers.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Modifier.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/ModifierConditionals.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -63,7 +62,7 @@
     ".NET Project.WordPlaySolver.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "TrieRefactor",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,7 +72,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.WordPlayUI: http">
+  <component name="RunManager" selected=".NET Project.Testing">
     <configuration name="Testing" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -215,6 +214,9 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/WordPlayUI/Pages/Home.razor</url>
           <line>21</line>
+          <properties isMultiMethodBreakpoint="true">
+            <option name="multiMethodBreakpoint" value="true" />
+          </properties>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>

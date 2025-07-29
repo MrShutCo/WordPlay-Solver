@@ -42,14 +42,15 @@ public class State
         foreach (var tiles in permutations)
         {
             var hand = new Hand(tiles.ToList());
-            
-            var score = scorer.GetScore(hand, [], Modifiers);
+           
             var word = hand.GetWord();
 
             if (tiles.Length < parameters.MinLength) continue;
             if (parameters.Prefix != "" && !word.StartsWith(parameters.Prefix)) continue;
             if (parameters.Suffix != "" && !word.EndsWith(parameters.Suffix)) continue;
             if (parameters.Contains != "" && !word.Contains(parameters.Contains)) continue;
+            
+             var score = scorer.GetScore(hand, [], Modifiers);
             
             if (parameters.MaxWordScore != null && score > parameters.MaxWordScore) continue;
             

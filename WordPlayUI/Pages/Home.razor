@@ -246,7 +246,7 @@
             }
             if (mod.Name == "Generic Always True")
             {
-                m = new GenericBonus("Generic Always True", (int)mod.Bonus, mod.ModType, (_, _) => true);
+                m = new GenericBonus("Generic Always True", (int)mod.Bonus, mod.ModType, Rarity.Common, (_, _) => true);
             }
             _state.Modifiers.Add(m);
         }
@@ -272,50 +272,35 @@
     
     List<Modifier> _standardModifiers =
     [
-        new Modifier("None", ModTimingType.None, 0),
-        new Modifier("Generic Always True", ModTimingType.None, 0),
-        new SlotMultiplier("2nd tile is 3x", 3, 1),
-        new SlotMultiplier("4th tile is 3x", 3, 3),
-        new SlotMultiplier("If first tile is vowel, 5x its value", 5, 0, ModifierConditionals.FirstTileIsVowel),
-        new GenericBonusAdditional("If word begins with _, +20 BP", 20, ModType.Add, ModifierConditionals.WordBeginsWith, ""),
-        new GenericBonus("First letter = last", 2, ModType.Mult, (hand, _) =>
-        {
-            var word = hand.GetWord();
-            return word.First() == word.Last();
-        }),
-        new GenericBonus("First and last letters are vowels", 2, ModType.Mult, (hand, _) =>
-        {
-            var word = hand.GetWord();
-            return Scorer.IsVowel(word.First()) && Scorer.IsVowel(word.Last());
-        }),
-        new GenericBonus("Identical letters in row is 1.5x", 1.5, ModType.Mult, ModifierConditionals.IdenticalLetters),
-        new Modifier("(N/A) 10 bonus points during special rounds", ModTimingType.None, 0),
-        new Modifier("(N/A) Add 5 Bonus Points for each unused Upgrade", ModTimingType.None, 0),
+        // Common
+        new Modifier("None", ModTimingType.None, Rarity.Common, 0),
+        new Modifier("Generic Always True", ModTimingType.None, Rarity.Common, 0),
+        new SlotMultiplier("2nd tile is 3x", 3, 1, Rarity.Common),
+        new SlotMultiplier("4th tile is 3x", 3, 3, Rarity.Common),
+        
+        // Uncommon
+        new SlotMultiplier("If first tile is vowel, 5x its value", 5, 0, Rarity.Uncommon, ModifierConditionals.FirstTileIsVowel),
+        new GenericBonusAdditional("If word begins with _, +20 BP", 20, ModType.Add, Rarity.Uncommon, ModifierConditionals.WordBeginsWith, ""),
+        
+        // Rare
+        // All the mults
+        new GenericBonus("If every letter is unique, score 1.5x", 1.5, ModType.Mult, Rarity.Rare, ModifierConditionals.UniqueLetters),
+        new GenericBonus("First and last letters are vowel, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.FirstLastLettersVowels),
+        new GenericBonus("First letter = last, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.FirstLetterEqualsLast),
+        new GenericBonus("First letter vowel, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.FirstLetterIsVowel),
+        new GenericBonusAdditional("word begins with _, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.WordBeginsWith, ""),
+        new GenericBonus("Identical letters in row, score 1.5x", 1.5, ModType.Mult, Rarity.Rare, ModifierConditionals.IdenticalAdjacentLetters),
+        new GenericBonus("No adjacent consonants, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.NoAdjacentConsonants),
+        new GenericBonusAdditional("ends begins with _, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.WordEndsWith, ""),
+        new GenericBonus("At least 3 unique vowels, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.AtLeastThreeUniqueVowels),
+        new GenericBonus("If more vowels than consonants, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.MoreVowelsThanConsonants),
+        new GenericBonus("If no E, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.NoE),
+        
+        // TODO: implement 48-54
+        
+        // new Modifier("(N/A) 10 bonus points during special rounds", ModTimingType.None, Rarity.Uncommon, 0),
+        // new Modifier("(N/A) Add 5 Bonus Points for each unused Upgrade", ModTimingType.None, Rarity.Uncommon, 0),
     ];
-
-    // Dictionary<string, Func<Hand, List<Tile>, bool>> ModifierConditions = new()
-    // {
-    //     {"None", (h, t) => false},
-    //     { "Always true", (h, t) => true },
-    //     { "4th tile is 3x", (h, t) => true },
-    //     { "Contains Letter Pair", (h, t) =>
-    //     {
-    //         var word = h.GetWord();
-    //         
-    //     }},
-    //     { "First letter = last", (h, t) =>
-    //     {
-    //         var word = h.GetWord();
-    //         return word.First() == word.Last();
-    //     }},
-    //     { "First last vowels", (h, t) =>
-    //     {
-    //         var word = h.GetWord();
-    //         return Scorer.IsVowel(word.First()) && Scorer.IsVowel(word.Last());
-    //     }}
-    // };
-    
-
 
     class ModifierDef
     {
