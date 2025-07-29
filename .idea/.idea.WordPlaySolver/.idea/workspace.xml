@@ -12,7 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="" />
+    <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlayUI/wwwroot/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/wwwroot/index.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +76,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Project.Testing">
+  <component name="RunManager" selected=".NET Launch Settings Profile.WordPlayUI: http">
     <configuration name="Testing" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -210,14 +214,6 @@
             <option name="multiMethodBreakpoint" value="true" />
           </properties>
           <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/WordPlayUI/Pages/Home.razor</url>
-          <line>21</line>
-          <properties isMultiMethodBreakpoint="true">
-            <option name="multiMethodBreakpoint" value="true" />
-          </properties>
-          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
