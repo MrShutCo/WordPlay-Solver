@@ -15,9 +15,9 @@
     <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Testing/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlaySolver/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tree.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +57,8 @@
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tree.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tree.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tree.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tree.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tree.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -81,7 +83,7 @@
     ".NET Project.WordPlaySolver.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "WildCard-Support",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -229,32 +231,6 @@
             <option name="multiMethodBreakpoint" value="true" />
           </properties>
           <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/WordPlaySolver/State.cs</url>
-          <line>47</line>
-          <properties documentPath="$PROJECT_DIR$/WordPlaySolver/State.cs" containingFunctionPresentation="Method 'FindBestWordsInHand'">
-            <startOffsets>
-              <option value="1507" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1547" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/WordPlaySolver/State.cs</url>
-          <line>39</line>
-          <properties documentPath="$PROJECT_DIR$/WordPlaySolver/State.cs" containingFunctionPresentation="Method 'FindBestWordsInHand'">
-            <startOffsets>
-              <option value="1224" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1330" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

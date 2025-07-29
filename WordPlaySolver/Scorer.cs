@@ -121,7 +121,8 @@ public class Scorer
         ApplySlotUpgrades(hand, bag, modifiers);
         for (var i = 0; i < hand.Tiles.Count; i++)
         {
-            baseScore += Scores[hand.Tiles[i].Letters] * slots[i].LetterMultBonus;
+            var letter = hand.Tiles[i].IsSpecial ? hand.Tiles[i].StarMatched : hand.Tiles[i].Letters;
+            baseScore += Scores[letter] * slots[i].LetterMultBonus;
             bonusScore += slots[i].FlatBonus;
         }
 

@@ -41,9 +41,13 @@ public class Tile
     public string Letters { get; private set; }
     public TileModifierType Modifier { get; set; }
     public int AddedValue { get; set; }
+    public bool IsSpecial { get; }
+    
+    public string? StarMatched { get; set; }
     
     public Tile(string letters, TileModifierType modifier, int addedValue)
     {
+        if (letters == "*") IsSpecial = true;
         Letters = letters;
         Modifier = modifier;
         AddedValue = addedValue;

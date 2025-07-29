@@ -45,5 +45,6 @@ void TestWords(string[] bag)
 }
 
 
-//TestWords(["Q","U","O","T","ING","ERS","QU","I","W","M","C","N","I","O","S","S"];);
+//TestWords(["Q","U","O","T","ING","ERS","QU","I","W","M","C","N","I","O","S","S"]);
+TestWords(["Q","U","O","T","ING","ERS","QU","*","W","M","C","N","*","O","S","S"]);
 
