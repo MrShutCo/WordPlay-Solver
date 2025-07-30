@@ -48,7 +48,8 @@ public class Scorer
         { "Z", 10 },
         {"ING", 8},
         {"QU", 10},
-        {"ERS", 8}
+        {"ERS", 8},
+        {"*", 0}
     };
 
     public static bool IsVowel(Tile tile)

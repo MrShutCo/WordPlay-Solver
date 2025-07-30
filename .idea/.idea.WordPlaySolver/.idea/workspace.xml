@@ -14,8 +14,14 @@
   <component name="ChangeListManager">
     <list default="true" id="0cc48f71-e2da-46ba-a901-fe1b8a64ec1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WordPlaySolver/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Testing/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/EliteTracker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/EliteTracker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Scorer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WordPlaySolver/Tree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlaySolver/Tree.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/Pages/Home.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordPlayUI/wwwroot/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/WordPlayUI/wwwroot/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,17 +40,21 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2b3cf01714fd98ff7f12316ce766442f76ff6a46a8ffb780ec8550953d47b94c/ComponentBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/40a287f5fe355145ebd788392b401776cfaebb57164120948329c3ea45dbb/MudFormComponent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/45c62c1f9af1eb2248ec17220752868b3b6728095879e849b6ea733ef7f5ff/CastHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4743f513c7ddc8411223a46f0ca426ed929391acebcff993721dff2f0c6b34/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/68b06b8592b1287fd78f3ee68566d6a38d6e2f45b9a9e6ebd4d0e9972f7c29/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a6f52f75db0c77bb83f322fb52f52cef9cff6cdafbb94dfec214bab243d18/Task.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c91b9b584df85d0d79429970f616605a7eefd01b954c8a3bbaca5e9067bc7/MudTextField.razor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d37356fea9ed307068a31dc8ca3e5c5723187a9f164d0d76fc81bbf46f5/ThrowHelpers.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Modifier.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/ModifierConditionals.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/EliteTracker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Scorer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Scorer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/State.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/State.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tile.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlaySolver/Tree.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/tylerpersonal/RiderProjects/WordPlaySolver/WordPlayUI/Pages/Home.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -66,7 +76,7 @@
     ".NET Project.WordPlaySolver.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "WildCard-Support",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -193,6 +203,7 @@
       <workItem from="1753669141916" duration="357000" />
       <workItem from="1753722911222" duration="4527000" />
       <workItem from="1753737322420" duration="3254000" />
+      <workItem from="1753803921707" duration="6251000" />
     </task>
     <servers />
   </component>
@@ -214,6 +225,32 @@
             <option name="multiMethodBreakpoint" value="true" />
           </properties>
           <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/WordPlaySolver/ModifierConditionals.cs</url>
+          <line>68</line>
+          <properties documentPath="$PROJECT_DIR$/WordPlaySolver/ModifierConditionals.cs" containingFunctionPresentation="Method 'AtLeastThreeUniqueVowels'">
+            <startOffsets>
+              <option value="2100" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2118" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/WordPlaySolver/State.cs</url>
+          <line>105</line>
+          <properties documentPath="$PROJECT_DIR$/WordPlaySolver/State.cs" containingFunctionPresentation="Method 'GenerateAllPermutations'">
+            <startOffsets>
+              <option value="3519" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3576" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

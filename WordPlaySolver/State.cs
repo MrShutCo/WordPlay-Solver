@@ -36,11 +36,13 @@ public class State
 
     public IEnumerable<(Hand hand, double value)> FindBestWordsInHand(Tree wordTree, Scorer scorer, SearchParameters parameters)
     {
+        int permCount = 0;
         var tracker = new EliteTracker<Hand>(parameters.BestNResults, true);
         var permutations = GenerateAllPermutations(PlayableTiles.Tiles.ToArray(), parameters.MaxLength, wordTree);
         
         foreach (var tiles in permutations)
         {
+            permCount++;
             var hand = new Hand(tiles.ToList());
            
             var word = hand.GetWord();
@@ -50,7 +52,7 @@ public class State
             if (parameters.Suffix != "" && !word.EndsWith(parameters.Suffix)) continue;
             if (parameters.Contains != "" && !word.Contains(parameters.Contains)) continue;
             
-             var score = scorer.GetScore(hand, [], Modifiers);
+            var score = scorer.GetScore(hand, [], Modifiers);
             
             if (parameters.MaxWordScore != null && score > parameters.MaxWordScore) continue;
             
@@ -59,7 +61,7 @@ public class State
                 tracker.TryUpdateElite(hand, score, false);
             }
         }
-
+        Console.WriteLine($"Searched {permCount} permutations");
         return tracker.GetElitesInOrder();
     }
     

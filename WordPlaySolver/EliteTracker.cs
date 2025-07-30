@@ -4,7 +4,7 @@ namespace WordPlaySolver;
     /// Helper class that will keep track of either the highest or lowest value solutions to a problem
     /// </summary>
     /// <typeparam name="T">Type used to represent a solution</typeparam>
-    public class EliteTracker<T> where T : class
+    public class EliteTracker<T> where T : ICloneable
     {
         /// <summary>
         /// The best N solutions ever created and their solution's values/fitness
@@ -67,7 +67,7 @@ namespace WordPlaySolver;
 
             if (EliteBest.Count < NumberOfElites)
             {
-                EliteBest.Add((solution, quality));
+                EliteBest.Add(((T)solution.Clone(), quality));
                 return true;
             }
 
@@ -76,7 +76,7 @@ namespace WordPlaySolver;
                 var worstEliteIdx = EliteBest.IndexOf(EliteBest.MinBy(eb => eb.objectiveValue));
                 if (quality > EliteBest[worstEliteIdx].objectiveValue)
                 {
-                    EliteBest[worstEliteIdx] = (solution, objectiveValue: quality);
+                    EliteBest[worstEliteIdx] = ((T)solution.Clone(), objectiveValue: quality);
                     return true;
                 }
             }
@@ -85,7 +85,7 @@ namespace WordPlaySolver;
                 var worstEliteIdx = EliteBest.IndexOf(EliteBest.MaxBy(eb => eb.objectiveValue));
                 if (quality < EliteBest[worstEliteIdx].objectiveValue)
                 {
-                    EliteBest[worstEliteIdx] = (solution, objectiveValue: quality);
+                    EliteBest[worstEliteIdx] = ((T)solution.Clone(), objectiveValue: quality);
                     return true;
                 }
             }
