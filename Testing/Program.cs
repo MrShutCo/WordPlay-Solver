@@ -29,7 +29,7 @@ void TestWords(string[] bag)
     {
         BestNResults = 5, 
         MinLength = 4,
-        MaxLength = 16,
+        MaxLength = 10,
         Prefix = "",
         Suffix = "",
         Contains = "",
@@ -46,5 +46,6 @@ void TestWords(string[] bag)
 
 
 //TestWords(["Q","U","O","T","ING","ERS","QU","I","W","M","C","N","I","O","S","S"]);
-TestWords(["Q","U","O","T","ING","ERS","QU","*","W","M","C","N","*","O","S","S"]);
+//TestWords(["Q","U","O","T","ING","ERS","QU","*","W","M","C","N","*","O","S","S"]);
 
+TestWords(["ING", "ERS", "QU", "A", "S","D","*","E","N","C","A","S","D","Q","*", "E"]);

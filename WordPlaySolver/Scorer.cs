@@ -48,7 +48,8 @@ public class Scorer
         { "Z", 10 },
         {"ING", 8},
         {"QU", 10},
-        {"ERS", 8}
+        {"ERS", 8},
+        {"*", 0}
     };
 
     public static bool IsVowel(Tile tile)
@@ -121,8 +122,7 @@ public class Scorer
         ApplySlotUpgrades(hand, bag, modifiers);
         for (var i = 0; i < hand.Tiles.Count; i++)
         {
-            var letter = hand.Tiles[i].IsSpecial ? hand.Tiles[i].StarMatched : hand.Tiles[i].Letters;
-            baseScore += Scores[letter] * slots[i].LetterMultBonus;
+            baseScore += Scores[hand.Tiles[i].Letters] * slots[i].LetterMultBonus;
             bonusScore += slots[i].FlatBonus;
         }
 

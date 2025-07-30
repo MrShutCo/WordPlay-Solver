@@ -7,8 +7,6 @@ public class Tree
     public Tree(List<string> words)
     {
         _root = new Node();
-        //List<char> letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-        
         foreach (var word in words)
         {
             AddWord(word);
@@ -17,18 +15,9 @@ public class Tree
 
     public bool ExistsThatBeginsWith(Tile[] tiles)
     {
-        // if (tiles.Length == 0) return true;
-        var letters = new string(Hand.GetCharsFromTiles(tiles));
-        // var initialIndex = CharToIndex(letters[0]);
-        // if (initialIndex < 0 || initialIndex >= _initialLetters.Length) throw new IndexOutOfRangeException();
-        
-        //var curr = _initialLetters[initialIndex];
-        // for (int i = 1; i < letters.Length; i++)
-        // {
-        //     var found = curr.NextLetters.TryGetValue(letters[i], out var next);
-        //     if (!found) return false;
-        //     curr = next;
-        // }
+        if (tiles.Length == 0) return true;
+        var letters = Hand.GetCharsFromTiles(tiles);
+
         Span<char> starBuffer = stackalloc char[16];
         var matches = Matches(_root, letters, 0, false, starBuffer, 0);
         int numMatched = 0;
@@ -46,24 +35,11 @@ public class Tree
     
     public bool TryGetWord(string word)
     {
-        // var initialIndex = CharToIndex(word[0]);
-        // if (initialIndex < 0 || initialIndex >= _initialLetters.Length) throw new IndexOutOfRangeException();
-        
-        // var curr = _initialLetters[initialIndex];
-        // for (int i = 1; i < word.Length; i++)
-        // {
-        //     curr.NextLetters.TryGetValue(word[i], out var next);
-        //     if (next == null) return false;
-        //     curr = next;
-        // }
-        //
-        // //value = curr.Score;
-        // return curr.IsTerminator;
         Span<char> starBuffer = stackalloc char[16];
-        return Matches(_root, word, 0, true, starBuffer, 0);
+        return Matches(_root, word.ToCharArray(), 0, true, starBuffer, 0);
     }
 
-    private bool Matches(Node node, string word, int index, bool checkTerminating, Span<char> buffer, int bufferIndex)
+    private bool Matches(Node node, char[] word, int index, bool checkTerminating, Span<char> buffer, int bufferIndex)
     {
         while (index < word.Length)
         {
@@ -75,6 +51,7 @@ public class Tree
                     buffer[bufferIndex] = next.Key;
                     if (Matches(next.Value, word, index + 1, checkTerminating, buffer, bufferIndex+1))
                     {
+                        
                         return true;
                     }
                 }
@@ -82,7 +59,7 @@ public class Tree
                 return false;
             }
 
-            node.NextLetters.TryGetValue(word[index], out var nextNode);
+            node.NextLetters.TryGetValue(curr, out var nextNode);
             if (nextNode == null) return false;
             node = nextNode;
             index += 1;

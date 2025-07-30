@@ -36,11 +36,13 @@ public class State
 
     public IEnumerable<(Hand hand, double value)> FindBestWordsInHand(Tree wordTree, Scorer scorer, SearchParameters parameters)
     {
+        int permCount = 0;
         var tracker = new EliteTracker<Hand>(parameters.BestNResults, true);
         var permutations = GenerateAllPermutations(PlayableTiles.Tiles.ToArray(), parameters.MaxLength, wordTree);
         
         foreach (var tiles in permutations)
         {
+            permCount++;
             var hand = new Hand(tiles.ToList());
            
             var word = hand.GetWord();
@@ -59,7 +61,7 @@ public class State
                 tracker.TryUpdateElite(hand, score, false);
             }
         }
-
+        Console.WriteLine($"Searched {permCount} permutations");
         return tracker.GetElitesInOrder();
     }
     

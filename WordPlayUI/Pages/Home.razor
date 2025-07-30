@@ -81,7 +81,7 @@
             </MudForm>
         </MudPaper>
         <MudItem Class="d-flex align-center justify-center mud-width-full py-8" xs="12">
-            <MudChip T="string" Label="true">* = * (coming soon)</MudChip>
+            <MudChip T="string" Label="true">* (max 2 supported)</MudChip>
             <MudChip T="string" Label="true">, = ING</MudChip>
             <MudChip T="string" Label="true">. = ERS</MudChip>
             <MudChip T="string" Label="true">/ = Qu</MudChip>
@@ -89,7 +89,18 @@
 
         <MudDivider />
         @* <MudTextField Label="Standard" Variant="Variant.Text"></MudTextField> *@
-        <MudButton OnClick="CalculateWords" Variant="Variant.Filled" Color="Color.Primary">Submit</MudButton>
+        <MudButton OnClick="CalculateWords" Disabled="@_calculatingWords" Loading Variant="Variant.Filled" Color="Color.Primary">
+            @if (_calculatingWords)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                <MudText Class="ms-2">Calculating</MudText>
+            }
+            else
+            {
+                <MudText>Submit</MudText>
+            }
+        </MudButton>
+        <MudButton OnClick="Clear" Variant="Variant.Filled">Clear</MudButton>
         
         
         <MudItem xs="12">
@@ -108,9 +119,9 @@
     <MudItem xs="3">
         <MudText Align="Align.Center" Typo="Typo.h6">Settings</MudText>
         <MudStack Style="width: 300px">
-            <MudNumericField @bind-Value="searchParameters.BestNResults" Label="Number of Results" Variant="Variant.Text" Min="1" Max="10"/>
-            <MudNumericField @bind-Value="searchParameters.MinLength" Label="Min Word Length" Variant="Variant.Text" Min="1" Max="@searchParameters.MaxLength"/>
-            <MudNumericField @bind-Value="searchParameters.MaxLength" Label="Max Word Length" Variant="Variant.Text" Min="@searchParameters.MinLength" Max="InitialWordCount"/>
+            <MudNumericField @bind-Value="searchParameters.BestNResults" Label="Number of Results" Variant="Variant.Text" Min="1" Max="50"/>
+            <MudNumericField @bind-Value="searchParameters.MinLength" Label="Min Tile Length" Variant="Variant.Text" Min="1" Max="@searchParameters.MaxLength"/>
+            <MudNumericField @bind-Value="searchParameters.MaxLength" Label="Max Tile Length" Variant="Variant.Text" Min="@searchParameters.MinLength" Max="InitialWordCount"/>
             <MudNumericField @bind-Value="searchParameters.MaxWordScore" Label="Max Score" Variant="Variant.Text" Min="0" Max="65536"/>
             <MudTextField @bind-Value="searchParameters.Contains" Label="Word Contains" Variant="Variant.Text"></MudTextField>
             <MudTextField @bind-Value="searchParameters.Prefix" Label="Word Prefix" Variant="Variant.Text"></MudTextField>
@@ -130,6 +141,8 @@
     private readonly ModifierDef[] _mods = new ModifierDef[ModifierCount];
 
     MudForm _validationForm;
+
+    bool _calculatingWords = false;
     
     string[] _possibleLetters = new string[InitialWordCount];
 
@@ -174,6 +187,7 @@
             var fileContent = await Http.GetStringAsync("wordsfull.txt"); 
             _scorer = new Scorer(InitialWordCount);
             _scorer.LoadWords(fileContent, InitialWordCount);
+            _tree = new Tree(_scorer.Words);
         }
     }
 
@@ -182,8 +196,13 @@
         foreach (var ch in input)
         {
             if (char.IsLetter(ch)) continue;
-            if (ch is '2' or '3' or '4') continue;
+            if (ch is '2' or '3' or '4' or '*') continue;
             return "Invalid Character";
+        }
+
+        if (_possibleLetters.Count(l => l == "*") > 2)
+        {
+            return "Too many *";
         }
 
         return null;
@@ -193,13 +212,19 @@
     {
         if (e.Key == "Backspace")
         {
-            _possibleLetters[index] = ""; // clear current
-            if (index > 0)
+
+            if (!string.IsNullOrEmpty(_possibleLetters[index]))
             {
+                _possibleLetters[index] = ""; // clear current
+            }
+            else if (index > 0)
+            {
+                _possibleLetters[index - 1] = "";
+
                 await _letterRefs[index - 1].FocusAsync();
             }
         }
-        else if (e.Key.Length == 1 && (char.IsLetter(e.Key[0])) || (e.Key[0] is ',' or '.' or '/'))
+        else if (e.Key.Length == 1 && (char.IsLetter(e.Key[0])) || (e.Key[0] is '*' or ',' or '.' or '/'))
         {
             var tileLetters = e.Key switch
             {
@@ -224,13 +249,23 @@
             _possibleLetters[index] = "";
         }
     }
+    
+    private void Clear()
+    {
+        for (int i = 0; i < _possibleLetters.Length; i++)
+        {
+            _possibleLetters[i] = "";
+        }
+    }
 
-    void CalculateWords()
+    async Task CalculateWords()
     {
         if (!_validationForm.IsValid)
         {
             return;
         }
+
+        _calculatingWords = true;
         _state = new State(_possibleLetters.Where(l => !string.IsNullOrEmpty(l)).ToArray());
         _state.DrawHand(InitialWordCount);
         foreach (var mod in _mods)
@@ -250,12 +285,18 @@
             _state.Modifiers.Add(m);
         }
         _scorer.ResetSlots(InitialWordCount);
-        topResults = _state.FindBestWordsInHand(_tree, _scorer, searchParameters).ToList();
-        
-        foreach (var result in topResults)
+
+        await Task.Run(() =>
         {
-            Console.WriteLine(result.hand.GetWord());
-        }
+            topResults = _state.FindBestWordsInHand(_tree, _scorer, searchParameters).ToList();
+
+            _calculatingWords = false;
+        
+            foreach (var result in topResults)
+            {
+                Console.WriteLine(result.hand.GetWord());
+            }
+        });
     }
     
     private void OnSelectModifier(string value, int index)
