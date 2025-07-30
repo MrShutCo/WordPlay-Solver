@@ -29,11 +29,11 @@
                     int ii = i;
                     var modifierDisabled = _mods[ii].Name != "Generic Always True";
                     var additionalDisabled = true;
-                    if (!string.IsNullOrEmpty(_mods[ii].Name)) additionalDisabled = GetModifierByName(_mods[ii].Name) is not GenericBonusAdditional;
+                    if (!string.IsNullOrEmpty(_mods[ii].Name)) additionalDisabled = ModifierList.GetModifierByName(_mods[ii].Name) is not GenericBonusAdditional;
 
                     <MudPaper Class="p-4" Elevation="1">
                         <MudSelect ValueChanged="(string value) => OnSelectModifier(value, ii)">
-                            @foreach (var option in _standardModifiers)
+                            @foreach (var option in ModifierList.Modifiers)
                             {
                                 <MudSelectItem Value="option.Name">@option.Name</MudSelectItem>
                             }
@@ -271,7 +271,7 @@
         foreach (var mod in _mods)
         {
             if (string.IsNullOrEmpty(mod.Name)) continue;
-            var m = GetModifierByName(mod.Name);
+            var m = ModifierList.GetModifierByName(mod.Name);
 
             // Pass in context-sensitive information to modifier
             if (m is GenericBonusAdditional bonus)
@@ -301,46 +301,15 @@
     
     private void OnSelectModifier(string value, int index)
     {
-        var mod = GetModifierByName(value);
+        var mod = ModifierList.GetModifierByName(value);
         _mods[index].Name = value;
         _mods[index].Bonus = mod.Amount;
         _mods[index].Additional = "";
         _mods[index].ModType = mod.TimingType is ModTimingType.Bonus ? ModType.Add : ModType.Mult;
     }
 
-    Modifier GetModifierByName(string name) => _standardModifiers.First(s => s.Name == name);
+
     
-    List<Modifier> _standardModifiers =
-    [
-        // Common
-        new Modifier("None", ModTimingType.None, Rarity.Common, 0),
-        new Modifier("Generic Always True", ModTimingType.None, Rarity.Common, 0),
-        new SlotMultiplier("2nd tile is 3x", 3, 1, Rarity.Common),
-        new SlotMultiplier("4th tile is 3x", 3, 3, Rarity.Common),
-        
-        // Uncommon
-        new SlotMultiplier("If first tile is vowel, 5x its value", 5, 0, Rarity.Uncommon, ModifierConditionals.FirstTileIsVowel),
-        new GenericBonusAdditional("If word begins with _, +20 BP", 20, ModType.Add, Rarity.Uncommon, ModifierConditionals.WordBeginsWith, ""),
-        
-        // Rare
-        // All the mults
-        new GenericBonus("If every letter is unique, score 1.5x", 1.5, ModType.Mult, Rarity.Rare, ModifierConditionals.UniqueLetters),
-        new GenericBonus("First and last letters are vowel, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.FirstLastLettersVowels),
-        new GenericBonus("First letter = last, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.FirstLetterEqualsLast),
-        new GenericBonus("First letter vowel, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.FirstLetterIsVowel),
-        new GenericBonusAdditional("word begins with _, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.WordBeginsWith, ""),
-        new GenericBonus("Identical letters in row, score 1.5x", 1.5, ModType.Mult, Rarity.Rare, ModifierConditionals.IdenticalAdjacentLetters),
-        new GenericBonus("No adjacent consonants, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.NoAdjacentConsonants),
-        new GenericBonusAdditional("ends begins with _, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.WordEndsWith, ""),
-        new GenericBonus("At least 3 unique vowels, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.AtLeastThreeUniqueVowels),
-        new GenericBonus("If more vowels than consonants, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.MoreVowelsThanConsonants),
-        new GenericBonus("If no E, score 2x", 2, ModType.Mult, Rarity.Rare, ModifierConditionals.NoE),
-        
-        // TODO: implement 48-54
-        
-        // new Modifier("(N/A) 10 bonus points during special rounds", ModTimingType.None, Rarity.Uncommon, 0),
-        // new Modifier("(N/A) Add 5 Bonus Points for each unused Upgrade", ModTimingType.None, Rarity.Uncommon, 0),
-    ];
 
     class ModifierDef
     {

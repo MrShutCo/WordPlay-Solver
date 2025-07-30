@@ -108,8 +108,27 @@ public class SearchParameters
     public int MaxLength { get; set; }
     public int BestNResults { get; set; }
     
-    public string Suffix { get; set; }
-    public string Prefix { get; set; }
-    public string Contains { get; set; }
+    public string Suffix
+    {
+        get => _suffix;
+        set => _suffix = value.ToUpperInvariant();
+    }
+    
+    public string Prefix
+    {
+        get => _prefix;
+        set => _prefix = value.ToUpperInvariant();
+    }
+    
+    public string Contains
+    {
+        get => _contains;
+        set => _contains = value.ToUpperInvariant();
+    }
+
     public int? MaxWordScore { get; set; }
+    
+    private string _suffix;
+    private string _prefix;
+    private string _contains;
 }
