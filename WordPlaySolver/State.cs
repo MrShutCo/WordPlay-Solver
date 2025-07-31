@@ -16,6 +16,7 @@ public class State
             _allLetters[i] = new Tile(allLetters[i].ToString(), TileModifierType.Basic, 0);
         }
         Modifiers = new List<Modifier>();
+        Scorer.IsYVowel = false;
     }
 
     public State(string[] allLetters)
@@ -26,6 +27,7 @@ public class State
             _allLetters[i] = new Tile(allLetters[i], TileModifierType.Basic, 0);
         }
         Modifiers = new List<Modifier>();
+        Scorer.IsYVowel = false;
     }
 
     public void DrawHand(int handSize)

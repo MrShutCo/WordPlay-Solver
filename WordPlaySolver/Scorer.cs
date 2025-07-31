@@ -17,6 +17,8 @@ public class Slot
 public class Scorer
 {
     public List<string> Words = new();
+
+    public static bool IsYVowel = false;
     
     public readonly Dictionary<string, int> Scores = new ()
     {
@@ -60,6 +62,7 @@ public class Scorer
 
     public static bool IsVowel(char letter)
     {
+        if (IsYVowel && letter == 'Y') return true;
         return letter is 'A' or 'E' or 'I' or 'O' or 'U';
     }
 
@@ -102,15 +105,18 @@ public class Scorer
         Console.WriteLine($"Loaded {Words.Count} words");
     }
 
-    public void ApplySlotUpgrades(Hand hand, List<Tile> bag, List<Modifier> modifiers)
+    private void ApplySlotUpgrades(Hand hand, List<Tile> bag, List<Modifier> modifiers)
     {
         slots.ForEach(s => s.LetterMultBonus = 1);
         foreach (var modifier in modifiers.Where(u => u is SlotMultiplier))
         {
             var mult = (SlotMultiplier)modifier;
-            if (mult.Conditional?.Invoke(hand, bag) ?? true)
+            if (mult.IsActive(hand, bag))
             {
-                slots[mult.SlotIndex].LetterMultBonus = mult.Amount;
+                foreach (var slotIdx in mult.SlotIndices)
+                {
+                    slots[slotIdx].LetterMultBonus *= mult.Amount;
+                }
             }
         }
     }

@@ -9,16 +9,35 @@ public static class ModifierConditionals
         for (int i = 1; i < word.Length; i++)
         {
             if (lastSeen == word[i]) return true;
+            lastSeen = word[i];
         }
 
         return false;
     }
 
-    public static bool FirstTileIsVowel(Hand hand, List<Tile> bag) => Scorer.IsVowel(hand.Tiles.First());
+    public static (bool, List<int>?) FirstTileIsVowel(Hand hand, List<Tile> bag) => (Scorer.IsVowel(hand.Tiles.First()), null);
+
+    public static (bool, List<int>?) HasFiveTiles(Hand hand, List<Tile> bag)
+    {
+        if (hand.Tiles.Count == 5) return (true, [0, 4]);
+        return (false, null);
+    }
+
+    public static (bool, List<int>?) AdjacentTilesShareSameLetter(Hand hand, List<Tile> bag)
+    {
+        return (false, null);
+    }
 
     public static bool WordBeginsWith(Hand hand, List<Tile> bag, string prefix) => hand.GetWord().StartsWith(prefix);
     
     public static bool WordEndsWith(Hand hand, List<Tile> bag, string suffix) => hand.GetWord().EndsWith(suffix);
+    
+    public static bool WordHasNTiles(Hand hand, List<Tile> bag, string suffix)
+    {
+        var valid = int.TryParse(suffix, out var result);
+        if (!valid) return false;
+        return hand.Tiles.Count == result;
+    }
 
     public static bool FirstLetterEqualsLast(Hand hand, List<Tile> bag)
     {
@@ -57,7 +76,7 @@ public static class ModifierConditionals
         bool lastIsConsonant = !Scorer.IsVowel(word[0]);
         for (int i = 1; i < word.Length; i++)
         {
-            if (lastIsConsonant && Scorer.IsVowel(word[i])) return false;
+            if (lastIsConsonant && !Scorer.IsVowel(word[i]) ) return false;
             lastIsConsonant = !Scorer.IsVowel(word[i]);
         }
 
@@ -91,7 +110,7 @@ public static class ModifierConditionals
     public static bool MoreVowelsThanConsonants(Hand hand, List<Tile> bag)
     {
         var word = hand.GetWord();
-        int vowelCount = word.Count(Scorer.IsVowel);
+        int vowelCount = word.Count(w => Scorer.IsVowel(w));
         return vowelCount > (word.Length - vowelCount);
     }
 
