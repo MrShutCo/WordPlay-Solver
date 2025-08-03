@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Reference Include="Assembly-CSharp">
+        <HintPath>..\..\..\Downloads\Assembly-CSharp.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

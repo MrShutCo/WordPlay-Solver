@@ -51,12 +51,17 @@ public class Tree
                     buffer[bufferIndex] = next.Key;
                     if (Matches(next.Value, word, index + 1, checkTerminating, buffer, bufferIndex+1))
                     {
-                        
                         return true;
                     }
                 }
             
                 return false;
+            }
+
+            if (curr == '!')
+            {
+                index++;
+                continue;
             }
 
             node.NextLetters.TryGetValue(curr, out var nextNode);

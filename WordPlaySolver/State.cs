@@ -40,21 +40,25 @@ public class State
     {
         int permCount = 0;
         var tracker = new EliteTracker<Hand>(parameters.BestNResults, true);
-        var permutations = GenerateAllPermutations(PlayableTiles.Tiles.ToArray(), parameters.MaxLength, wordTree);
+        var nonExclamationTiles = PlayableTiles.Tiles.Where(t => t.Letters != "!");
+        var permutations = GenerateAllPermutations(nonExclamationTiles.ToArray(), parameters.MaxLength, wordTree);
         
         foreach (var tiles in permutations)
         {
             permCount++;
             var hand = new Hand(tiles.ToList());
-           
             var word = hand.GetWord();
+            if (!wordTree.TryGetWord(word))
+            {
+                continue;
+            }
 
             if (tiles.Length < parameters.MinLength) continue;
             if (parameters.Prefix != "" && !word.StartsWith(parameters.Prefix)) continue;
             if (parameters.Suffix != "" && !word.EndsWith(parameters.Suffix)) continue;
             if (parameters.Contains != "" && !word.Contains(parameters.Contains)) continue;
             
-            var score = scorer.GetScore(hand, [], Modifiers);
+            var score = scorer.GetScore(hand, PlayableTiles.Tiles, Modifiers);
             
             if (parameters.MaxWordScore != null && score > parameters.MaxWordScore) continue;
             

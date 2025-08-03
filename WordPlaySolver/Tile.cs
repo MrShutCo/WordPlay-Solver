@@ -5,10 +5,13 @@ namespace WordPlaySolver;
 public enum TileModifierType
 {
     Basic,
-    Gold,
+    Golden,
+    Diamond,
     Emerald,
-    Red,
-    Diamond
+    Dot,
+    Glass,
+    Mirror,
+    Potion
 }
 
 public class Hand : ICloneable

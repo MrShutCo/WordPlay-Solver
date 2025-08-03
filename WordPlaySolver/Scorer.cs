@@ -51,7 +51,8 @@ public class Scorer
         {"ING", 8},
         {"QU", 10},
         {"ERS", 8},
-        {"*", 0}
+        {"*", 0},
+        {"!", 0}
     };
 
     public static bool IsVowel(Tile tile)
@@ -132,6 +133,11 @@ public class Scorer
             bonusScore += slots[i].FlatBonus;
         }
 
+        if (hand.Tiles.Last().Letters == "!")
+        {
+            baseScore += (bag.Count-hand.Tiles.Count) * slots[hand.Tiles.Count-1].LetterMultBonus;
+        }
+
         // TODO: add Additional bonuses here. It depends what type they are for where they are applied
         
         foreach (var mod in modifiers)
@@ -140,13 +146,13 @@ public class Scorer
                 bonusScore += mod.Amount;
         }
         
-        var goldCount = hand.GetModifierCount(TileModifierType.Gold);
+        var goldCount = hand.GetModifierCount(TileModifierType.Golden);
         if (goldCount > 0)
         {
             baseScore *= goldCount;
         }
 
-        if (hand.Tiles.Last().Modifier == TileModifierType.Red)
+        if (hand.Tiles.Last().Modifier == TileModifierType.Dot)
         {
             baseScore *= 2;
         }
