@@ -19,6 +19,11 @@ public class State
         Scorer.IsYVowel = false;
     }
 
+    public string GetTiles()
+    {
+        return _allLetters.Aggregate(string.Empty, (current, letter) => current + letter.Letters + ",");
+    }
+
     public State(string[] allLetters)
     {
         _allLetters = new Tile[allLetters.Length];
